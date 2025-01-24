@@ -22,10 +22,10 @@ const AdmissionForm = () => {
       form.append(key, value);
     });
 
-    fetch('/api/admission', {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/admission`, {
       method: 'POST',
       body: form,
-    })
+    })    
       .then((res) => res.json())
       .then(() => alert('Form submitted successfully'))
       .catch((err) => console.error('Error:', err));
