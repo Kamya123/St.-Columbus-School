@@ -1,5 +1,8 @@
 // Frontend Code (React.js)
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
+
+
 
 const AdmissionForm = () => {
   const [formData, setFormData] = useState({});
@@ -14,24 +17,42 @@ const AdmissionForm = () => {
     setFormData({ ...formData, [name]: files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData();
-
+    
     Object.entries(formData).forEach(([key, value]) => {
       form.append(key, value);
     });
-
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/admission`, {
-      method: 'POST',
-      body: form,
-    })    
-      .then((res) => res.json())
-      .then(() => alert('Form submitted successfully'))
-      .catch((err) => console.error('Error:', err));
+  
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admission`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      console.log("Response:", response.data);
+      alert("Form submitted successfully");
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+      alert("There was an error submitting the form.");
+    }
   };
 
-  const renderInput = (label, name, type = 'text', required = false) => (
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   // Simulate the form data being processed
+  //   console.log("Form Data Submitted:", formData);
+
+  //   // Mock the API response
+  //   setTimeout(() => {
+  //     alert("Form submitted successfully (Mock Response)");
+  //   }, 1000);
+  // };
+
+  const renderInput = (label, name, type = "text", required = false) => (
     <div className="mb-4 font-roboto">
       <label className="block text-customGray font-medium mb-1">
         {label} {required && <span className="text-red-500">*</span>}
@@ -39,7 +60,7 @@ const AdmissionForm = () => {
       <input
         type={type}
         name={name}
-        onChange={type === 'file' ? handleFileChange : handleChange}
+        onChange={type === "file" ? handleFileChange : handleChange}
         required={required}
         className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
       />
@@ -52,38 +73,58 @@ const AdmissionForm = () => {
       encType="multipart/form-data"
       className="max-w-4xl mx-auto p-6 py-10 bg-white shadow-md rounded-lg"
     >
-      <h1 className="text-2xl font-semibold font-georgia mb-6 text-center">Admission Form</h1>
+      <h1 className="text-2xl font-semibold font-georgia mb-6 text-center">
+        Admission Form
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Two columns per row */}
-        {renderInput('Student’s Name', 'studentName', 'text', true)}
-        {renderInput('Student’s Aadhar/ VID / Enrollment No.', 'studentAadhar', 'text', true)}
-        {renderInput('Mother’s Name', 'motherName', 'text', true)}
-        {renderInput('Mother’s Occupation', 'motherOccupation', 'text', true)}
-        {renderInput('Mother’s Mobile Number', 'motherMobile', 'tel', true)}
-        {renderInput('Father’s Name', 'fatherName', 'text', true)}
-        {renderInput('Father’s Occupation', 'fatherOccupation', 'text', true)}
-        {renderInput('Father’s Mobile Number', 'fatherMobile', 'tel', true)}
-        {renderInput('Gender', 'gender', 'text', true)}
-        {renderInput('Nationality', 'nationality', 'text', true)}
-        {renderInput('Religion', 'religion', 'text', true)}
-        {renderInput('Cast Category', 'castCategory', 'text', true)}
-        {renderInput('Date of Birth', 'dob', 'date', true)}
-        {renderInput('Blood Group', 'bloodGroup', 'text')}
-        {renderInput('Permanent Address', 'permanentAddress', 'text', true)}
-        {renderInput('Correspondence Address', 'correspondenceAddress', 'text', true)}
+        {renderInput("Student’s Name", "studentName", "text", true)}
+        {renderInput(
+          "Student’s Aadhar/ VID / Enrollment No.",
+          "studentAadhar",
+          "text",
+          true
+        )}
+        {renderInput("Mother’s Name", "motherName", "text", true)}
+        {renderInput("Mother’s Occupation", "motherOccupation", "text", true)}
+        {renderInput("Mother’s Aadhar", "motherAadhar", "text", true)}
+        {renderInput("Mother’s Mobile Number", "motherMobile", "text", true)}
+        {renderInput("Father’s Name", "fatherName", "text", true)}
+        {renderInput("Father’s Occupation", "fatherOccupation", "text", true)}
+        {renderInput("Father’s Aadhar", "fatherAadhar", "text", true)}
+        {renderInput("Father’s Mobile Number", "fatherMobile", "text", true)}
+        {renderInput("Guardian’s Name", "guardianName", "text", true)}
+        {renderInput("Gender", "gender", "text", true)}
+        {renderInput("Nationality", "nationality", "text", true)}
+        {renderInput("Religion", "religion", "text", true)}
+        {renderInput("Cast Category", "castCategory", "text", true)}
+        {renderInput("Date of Birth", "dob", "date", true)}
+        {renderInput("Blood Group", "bloodGroup", "text")}
+        {renderInput("Permanent Address", "permanentAddress", "text", true)}
+        {renderInput(
+          "Correspondence Address",
+          "correspondenceAddress",
+          "text",
+          true
+        )}
       </div>
       {/* File uploads */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        {renderInput('Passport Size Photograph of Student', 'studentPhoto', 'file', true)}
-        {renderInput('Transfer Certificate', 'transferCertificate', 'file', true)}
+        {renderInput(
+          "Passport Size Photograph of Student",
+          "studentPhoto",
+          "file",
+          true
+        )}
+        {/* {renderInput('Transfer Certificate', 'transferCertificate', 'file', true)}
         {renderInput('Birth Certificate', 'birthCertificate', 'file', true)}
-        {renderInput('Previous Mark Sheet/ Grade Card', 'markSheet', 'file', true)}
+        {renderInput('Previous Mark Sheet/ Grade Card', 'markSheet', 'file', true)} */}
       </div>
       {/* Submit Button */}
       <div className="mt-6">
         <label className="inline-flex items-center">
-          <input type="checkbox" className="mr-2" required />
-          I certify the information is accurate.
+          <input type="checkbox" className="mr-2" required />I certify the
+          information is accurate.
         </label>
       </div>
       <button
@@ -97,15 +138,6 @@ const AdmissionForm = () => {
 };
 
 export default AdmissionForm;
-
-
-
-
-
-
-
-
-
 
 // Backend Code (Node.js + Express.js)
 // const express = require('express');
@@ -149,11 +181,6 @@ export default AdmissionForm;
 // });
 
 // app.listen(5000, () => console.log('Server running on port 5000'));
-
-
-
-
-
 
 // import React, { useState } from "react";
 
