@@ -11,8 +11,12 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGODB_URL;
 
 // Middleware
+// app.use(cors({
+//   origin: 'https://st-columbus-school.vercel.app',
+//   methods: 'GET,POST,PUT,DELETE',
+// }));
 app.use(cors({
-  origin: 'https://st-columbus-school.vercel.app',
+  origin: '*',
   methods: 'GET,POST,PUT,DELETE',
 }));
 app.use(bodyParser.json());
