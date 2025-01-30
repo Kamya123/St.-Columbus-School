@@ -27,6 +27,11 @@ app.use("/uploads", express.static("uploads"));
 import admissionRoutes from "./routes/admissionRoutes.js";
 app.use("/api/admission", admissionRoutes);
 
+import contactRoutes from "./routes/contactRoutes.js";
+
+app.use("/api/contact", contactRoutes);
+
+
 // Connect to MongoDB
 mongoose
   .connect(MONGO_URI)
