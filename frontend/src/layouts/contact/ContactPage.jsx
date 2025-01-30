@@ -32,10 +32,7 @@ const ContactPage = () => {
     if (!validateForm()) return;
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/contact`,
-        formData
-      );
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/contact`, formData);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
     } catch (error) {
