@@ -33,7 +33,7 @@ const Footer = () => {
           content={["+91 8969489245", "9:00 a.m - 5:00 p.m"]}
         />
         <InfoSection
-          title="Attendance"
+          title="Contact Us"
           content={["+91 0832645672", "stcollambus12@gmail.com"]}
         />
       </div>

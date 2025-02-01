@@ -31,7 +31,7 @@ const activities = [
 export default function ActivitiesContent() {
   return (
     <div className="py-12 px-24 max-[768px]:px-10 max-[1115px]:px-10">
-      <h2 className="text-4xl font-bold text-center text-customGray mb-12">
+      <h2 className="text-4xl max-[920px]:text-3xl font-bold text-center font-georgia text-customGray mb-12">
         Activities at St. Columbus School
       </h2>
       <div className="space-y-16">
@@ -51,11 +51,11 @@ export default function ActivitiesContent() {
               alt={activity.title}
               className="w-full md:w-1/2 h-72 max-[540px]:h-64 rounded-lg shadow-lg object-cover"
             />
-            <div className="md:w-1/2 text-center font-roboto text-customGray md:text-left">
-              <h3 className="text-2xl font-semibold mb-4">
+            <div className="md:w-1/2 text-center text-customGray md:text-left">
+              <h3 className="text-2xl font-semibold font-georgia mb-4">
                 {activity.title}
               </h3>
-              <p className="text-justify text-lg leading-relaxed">
+              <p className="text-justify font-roboto text-lg max-[544px]:text-[15px] max-[544px]:leading-6 max-[768px]:leading-7 max-[920px]:text-base">
                 {activity.description}
               </p>
             </div>

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import HeaderPage from '../components/HeaderPage'
-import ActivitiesContent from '../layouts/activities/ActiitiesContent'
+import ActivitiesContent from '../layouts/activities/ActivitiesContent'
 
 const Activities = ({ headerTitle }) => {
   return (
