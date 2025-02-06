@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import HorizontalLine from "../../components/HorizontalLine";
 import princImg from "../../assets/images/principal.jpg";
 import { FaQuoteLeft } from "react-icons/fa";
@@ -66,7 +67,14 @@ const AboutHero = () => {
 
   return (
     <div className="">
-      <div className="w-full pt-12 pb-16 px-[4.5rem] max-[768px]:px-6 max-[768px]:flex-col max-[1115px]:px-10 flex gap-[8%] bg-transparent text-customGray">
+      {/* Top Section */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="w-full pt-12 pb-16 px-[4.5rem] max-[768px]:px-6 max-[768px]:flex-col max-[1115px]:px-10 flex gap-[8%] bg-transparent text-customGray"
+      >
         <div className="w-1/2 font-georgia max-[768px]:w-full">
           <h1 className="text-6xl max-[920px]:text-[3rem] max-[544px]:text-4xl leading-snug">
             Sant Columbus School Community
@@ -90,10 +98,16 @@ const AboutHero = () => {
             to excel in their passions and contribute positively to society.
           </p>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Principal Quote */}
-      <div className="bg-reddishWhite">
+      {/* Principal Quote Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        viewport={{ once: true }}
+        className="bg-reddishWhite"
+      >
         <div className="py-24 md:px-10 lg:px-20 flex gap-[6%] max-[768px]:pt-0 max-[768px]:pb-10 max-[768px]:block">
           <div className="max-[768px]:px-[8%] max-[768px]:flex max-[768px]:justify-center">
             <img
@@ -113,10 +127,16 @@ const AboutHero = () => {
             </span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Why Choose Us? Section */}
-      <div className="py-16 px-4 md:px-20">
+      {/* Why Choose Us Section */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        viewport={{ once: true }}
+        className="py-16 px-4 md:px-20"
+      >
         <h2 className="font-georgia text-3xl max-[768px]:text-2xl font-semibold text-center mb-10 text-customGray">
           Why Choose St. Columbus School?
         </h2>
@@ -130,10 +150,16 @@ const AboutHero = () => {
             />
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Missions */}
-      <div className="px-4 md:px-20 py-10 md:py-16 bg-reddishWhite">
+      {/* Missions Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+        viewport={{ once: true }}
+        className="px-4 md:px-20 py-10 md:py-16 bg-reddishWhite"
+      >
         <p className="font-georgia text-xl sm:text-lg font-bold text-center">
           Our St. Columbus School at a Glance
         </p>
@@ -143,18 +169,16 @@ const AboutHero = () => {
           <StatCard value="10+" label="Clubs & Activities" />
           <StatCard value="200+" label="Active PTFA Members" />
         </div>
-      </div>
-
-      {/* <div className="py-4 sm:py-8">
-          <HorizontalLine
-            width="100%"
-            height="1px"
-            color="rgb(220, 215, 215)"
-          />
-        </div> */}
+      </motion.div>
 
       {/* Faculty Teachers Section */}
-      <div className="px-4 md:px-20 py-10 md:py-16">
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        viewport={{ once: true }}
+        className="px-4 md:px-20 py-10 md:py-16"
+      >
         <div className="relative">
           <h2 className="font-georgia text-xl sm:text-lg font-bold text-center pb-6">
             Meet Our Faculty
@@ -214,7 +238,7 @@ const AboutHero = () => {
             <FaChevronRight className="text-lg sm:text-xl text-gray-600" />
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

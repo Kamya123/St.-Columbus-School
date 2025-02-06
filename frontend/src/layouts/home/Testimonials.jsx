@@ -16,7 +16,7 @@ const Testimonials = ({ items }) => {
   return (
     <div className="py-16 px-4 md:px-20">
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-georgia text-3xl text-customGray font-semibold text-center mb-12">
+        <h2 className="text-4xl max-[920px]:text-3xl font-bold text-center font-georgia text-customGray mb-12">
           Hear From Our Community
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

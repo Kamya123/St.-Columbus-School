@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import HorizontalLine from "../../components/HorizontalLine";
-import heroImage from "../../assets/images/principal.jpg"; // Add your hero image
+import heroImage from "../../assets/images/st-columbus.png"; // Add your hero image
 
 const HomeHero = () => {
   return (
