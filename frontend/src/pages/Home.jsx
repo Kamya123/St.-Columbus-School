@@ -1,6 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+import computerLab from "../../src/assets/images/computer-lab.jpg";
+import garden from "../../src/assets/images/garden.jpg";
+import sportsGround from "../../src/assets/images/sports-ground.jpeg";
+import classroom from "../../src/assets/images/classroom.jpg";
+import playArea from "../../src/assets/images/play-area.jpeg";
+import morningAssembly from "../../src/assets/images/morning-assembly.jpeg";
+
+
 import HomeHero from "../layouts/home/HomeHero";
 import Highlights from "../layouts/home/Highlights";
 import Announcements from "../layouts/home/Announcements";
@@ -105,30 +113,12 @@ const Home = () => {
       >
         <Gallery
           images={[
-            {
-              src: "../../src/assets/images/computer-lab.jpg",
-              alt: "Computer Lab",
-            },
-            {
-              src: "../../src/assets/images/garden.jpg",
-              alt: "School Garden",
-            },
-            {
-              src: "../../src/assets/images/sports-ground.jpeg",
-              alt: "Sports Ground",
-            },
-            {
-              src: "../../src/assets/images/classroom.jpg",
-              alt: "Classroom",
-            },
-            {
-              src: "../../src/assets/images/play-area.jpeg",
-              alt: "Play Area",
-            },
-            {
-              src: "../../src/assets/images/morning-assembly.jpeg",
-              alt: "Morning Assembly",
-            },
+            { src: computerLab, alt: "Computer Lab" },
+            { src: garden, alt: "School Garden" },
+            { src: sportsGround, alt: "Sports Ground" },
+            { src: classroom, alt: "Classroom" },
+            { src: playArea, alt: "Play Area" },
+            { src: morningAssembly, alt: "Morning Assembly" },
           ]}
         />
       </motion.div>
