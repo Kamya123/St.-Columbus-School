@@ -143,19 +143,19 @@ const Home = () => {
         <Testimonials
           items={[
             {
-              text: "The teachers' dedication transformed my child's future",
-              author: "Ramesh Sharma",
-              role: "Parent of Class 8 student",
+              "text": "The nurturing environment at St. Columbus gave me the confidence to chase my dreams. From academics to extracurriculars, every experience here prepared me for the future. Forever grateful! 🙌🎓",
+              "author": "Rahul Sharma",
+              "role": "Alumni (Batch 20XX)"
             },
             {
-              text: "Best rural school with city-level facilities",
-              author: "Dr. Anjali Verma",
-              role: "Alumni (Batch 2010)",
+              "text": "Studying at St. Columbus was a transformative experience. The school's dedication to excellence and holistic development helped shape my career and character. The supportive faculty and city-level infrastructure in a rural setting made learning truly enriching! 🎓❤️",
+              "author": "Kamya Kumari",
+              "role": "Alumni (Batch 2017)"
             },
             {
-              text: "Perfect balance of academics and values",
-              author: "Sunita Devi",
-              role: "Local Community Leader",
+              "text": "St. Columbus is more than just a school; it's a second home. The guidance and values instilled here continue to shape my personal and professional journey. Proud to be an alumnus! 💙📖",
+              "author": "Sneha Patel",
+              "role": "Alumni (Batch 20XX)"
             },
           ]}
         />
