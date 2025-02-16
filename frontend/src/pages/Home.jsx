@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 import computerLab from "../../src/assets/images/computer-lab.jpg";
 import garden from "../../src/assets/images/garden.jpg";
@@ -8,7 +10,6 @@ import classroom from "../../src/assets/images/classroom.jpg";
 import playArea from "../../src/assets/images/play-area.jpeg";
 import morningAssembly from "../../src/assets/images/morning-assembly.jpeg";
 
-
 import HomeHero from "../layouts/home/HomeHero";
 import Highlights from "../layouts/home/Highlights";
 import Announcements from "../layouts/home/Announcements";
@@ -16,6 +17,16 @@ import Gallery from "../layouts/home/Gallery";
 import Testimonials from "../layouts/home/Testimonials";
 
 const Home = () => {
+  const [disclosures, setDisclosures] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/uploads/disclosure")
+      .then(res => console.log(res.data))
+      .catch(err => console.error(err));
+      // .then(({ data }) => setDisclosures(data));
+  }, []);
+
   return (
     <div className="home-page">
       {/* HomeHero with a fade-in from above */}
@@ -27,6 +38,18 @@ const Home = () => {
       >
         <HomeHero />
       </motion.div>
+
+      <div>
+        <h2>Public Mandatory Disclosure</h2>
+        {disclosures.map((d) => (
+          <div key={d._id}>
+            <p>{d.title}</p>
+            <a href={d.fileUrl} download>
+              Download
+            </a>
+          </div>
+        ))}
+      </div>
 
       {/* Highlights with a slide-in from the left */}
       <motion.div
@@ -133,19 +156,19 @@ const Home = () => {
         <Testimonials
           items={[
             {
-              "text": "The nurturing environment at St. Columbus gave me the confidence to chase my dreams. From academics to extracurriculars, every experience here prepared me for the future. Forever grateful! 🙌🎓",
-              "author": "Rahul Sharma",
-              "role": "Alumni (Batch 20XX)"
+              text: "The nurturing environment at St. Columbus gave me the confidence to chase my dreams. From academics to extracurriculars, every experience here prepared me for the future. Forever grateful! 🙌🎓",
+              author: "Rahul Sharma",
+              role: "Alumni (Batch 20XX)",
             },
             {
-              "text": "Studying at St. Columbus was a transformative experience. The school's dedication to excellence and holistic development helped shape my career and character. The supportive faculty and city-level infrastructure in a rural setting made learning truly enriching! 🎓❤️",
-              "author": "Kamya Kumari",
-              "role": "Alumni (Batch 2017)"
+              text: "Studying at St. Columbus was a transformative experience. The school's dedication to excellence and holistic development helped shape my career and character. The supportive faculty and city-level infrastructure in a rural setting made learning truly enriching! 🎓❤️",
+              author: "Kamya Kumari",
+              role: "Alumni (Batch 2017)",
             },
             {
-              "text": "St. Columbus is more than just a school; it's a second home. The guidance and values instilled here continue to shape my personal and professional journey. Proud to be an alumnus! 💙📖",
-              "author": "Sneha Patel",
-              "role": "Alumni (Batch 20XX)"
+              text: "St. Columbus is more than just a school; it's a second home. The guidance and values instilled here continue to shape my personal and professional journey. Proud to be an alumnus! 💙📖",
+              author: "Sneha Patel",
+              role: "Alumni (Batch 20XX)",
             },
           ]}
         />

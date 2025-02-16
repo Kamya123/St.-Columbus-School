@@ -1,7 +1,7 @@
 // src/App.jsx
 
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Import different pages
 import Home from "./pages/Home";
@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Admin from "./pages/Admin";
 
 // Component to scroll to top on route change
 const ScrollToTop = () => {
@@ -25,7 +26,10 @@ const ScrollToTop = () => {
   return null;
 };
 
+
 function App() {
+  const [token, setToken] = useState("");
+
   return (
     <>
       <ScrollToTop />
@@ -41,6 +45,8 @@ function App() {
           <Route path="/activities" element={<Activities headerTitle="Co-curricular Activities" />} />
           <Route path="/admission" element={<Admission headerTitle="Admission" />} />
           <Route path="/contact" element={<Contact headerTitle="Contact Us" />} />
+          {/* Pass setToken to the login page */}
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
 
