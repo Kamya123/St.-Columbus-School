@@ -1,10 +1,19 @@
+import 'dotenv/config';
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+// dotenv.config();
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
-dotenv.config();
+// Import and register routes
+import admissionRoutes from "./routes/admissionRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import adminRoutes from './routes/adminRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js'
+
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,22 +24,25 @@ const MONGO_URI = process.env.MONGODB_URL;
 //   origin: 'https://st-columbus-school.vercel.app',
 //   methods: 'GET,POST,PUT,DELETE',
 // }));
-app.use(cors({
-  origin: '*',
-  methods: 'GET,POST,PUT,DELETE',
-}));
+
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,POST,PUT,DELETE",
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// For local static uploads (if needed)
 app.use("/uploads", express.static("uploads"));
 
-// Import and register routes
-import admissionRoutes from "./routes/admissionRoutes.js";
+// Mount API routes
 app.use("/api/admission", admissionRoutes);
-
-import contactRoutes from "./routes/contactRoutes.js";
-
 app.use("/api/contact", contactRoutes);
-
+app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/uploads", uploadRoutes);
 
 // Connect to MongoDB
 mongoose
