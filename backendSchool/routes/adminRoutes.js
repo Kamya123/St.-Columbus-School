@@ -10,16 +10,13 @@ import { authenticateAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Get school info (for admin use)
+// Public route to get school info (no authentication)
+router.get("/schoolinfo/public", getSchoolInfo);
+
+// Protected routes for admin management:
 router.get("/schoolinfo", authenticateAdmin, getSchoolInfo);
-
-// Add school information
 router.post("/schoolinfo", authenticateAdmin, addSchoolInfo);
-
-// Update school information by ID
 router.put("/schoolinfo/:id", authenticateAdmin, updateSchoolInfo);
-
-// Delete school information by ID
 router.delete("/schoolinfo/:id", authenticateAdmin, deleteSchoolInfo);
 
 export default router;
