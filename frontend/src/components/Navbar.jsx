@@ -15,7 +15,7 @@ const Navbar = () => {
     { name: 'Twitter', icon: <IoLogoTwitter size={20} />, link: 'https://twitter.com' },
   ];
 
-  const navLinks = ['Home', 'About', 'Academics', 'Activities', 'Admission', 'Contact'];
+  const navLinks = ['Home', 'About', 'Academics', 'Activities', 'Admission', 'Gallery', 'Contact'];
 
   return (
     <div className="fixed top-0 left-0 right-0 h-24 flex items-center justify-between bg-white text-customDark px-4 md:px-8 shadow-md z-50">

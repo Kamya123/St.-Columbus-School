@@ -15,17 +15,18 @@ import Highlights from "../layouts/home/Highlights";
 import Announcements from "../layouts/home/Announcements";
 import Gallery from "../layouts/home/Gallery";
 import Testimonials from "../layouts/home/Testimonials";
+import SchoolInfoTable from "../layouts/admin/SchoolInfoTable";
 
 const Home = () => {
   const [disclosures, setDisclosures] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/uploads/disclosure")
-      .then(res => console.log(res.data))
-      .catch(err => console.error(err));
-      // .then(({ data }) => setDisclosures(data));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:5000/api/uploads/disclosure")
+  //     .then((res) => console.log(res.data))
+  //     .catch((err) => console.error(err));
+  //   // .then(({ data }) => setDisclosures(data));
+  // }, []);
 
   return (
     <div className="home-page">
@@ -39,7 +40,7 @@ const Home = () => {
         <HomeHero />
       </motion.div>
 
-      <div>
+      {/* <div>
         <h2>Public Mandatory Disclosure</h2>
         {disclosures.map((d) => (
           <div key={d._id}>
@@ -49,6 +50,11 @@ const Home = () => {
             </a>
           </div>
         ))}
+      </div> */}
+
+      {/* School Info Section */}
+      <div className="py-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+        <SchoolInfoTable />
       </div>
 
       {/* Highlights with a slide-in from the left */}
