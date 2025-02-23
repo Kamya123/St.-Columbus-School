@@ -21,9 +21,8 @@ const AdminSchoolInfoTable = () => {
     }
   };
 
-  useEffect(() => {
+  
     fetchSchoolInfo();
-  }, []);
 
   // Delete a school info record
   const handleDelete = async (id) => {
