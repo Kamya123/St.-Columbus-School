@@ -12,10 +12,13 @@ const AdminSchoolInfoTable = () => {
   // Fetch school info records
   const fetchSchoolInfo = async () => {
     try {
+      console.log("going for request");
       const res = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/admin/schoolinfo/public`
       );
+      console.log("request done");
       setSchoolInfo(res.data);
+      console.log(res.data);
     } catch (error) {
       console.error("Error fetching school info", error);
     }
