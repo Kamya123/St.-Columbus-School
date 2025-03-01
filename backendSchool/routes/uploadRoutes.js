@@ -3,6 +3,7 @@ import express from "express";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
+import Image from "../models/GalleryImage.js"; // Import the model
 
 const router = express.Router();
 
@@ -24,12 +25,20 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-// Endpoint for uploading a single image
-router.post("/", upload.single("image"), (req, res) => {
+// Endpoint for uploading a single image and storing its info in MongoDB
+router.post("/", upload.single("image"), async (req, res) => {
   try {
-    // The file URL is available as req.file.path
-    res.status(201).json({ url: req.file.path });
+    // req.file.path holds the Cloudinary URL
+    // req.file.filename holds the Cloudinary public_id
+    const newImage = new Image({
+      url: req.file.path,
+      public_id: req.file.filename,
+    });
+    await newImage.save();
+
+    res.status(201).json({ message: "Image uploaded successfully", image: newImage });
   } catch (error) {
+    console.error("Error uploading image:", error);
     res.status(500).json({ error: "Error uploading image" });
   }
 });

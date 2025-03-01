@@ -1,9 +1,10 @@
 // backend/models/GalleryImage.js
 import mongoose from "mongoose";
 
-const GalleryImageSchema = new mongoose.Schema({
+const imageSchema = new mongoose.Schema({
   url: { type: String, required: true },
-}, { timestamps: true });
+  public_id: { type: String, required: true }, // Cloudinary public ID
+  createdAt: { type: Date, default: Date.now },
+});
 
-const GalleryImage = mongoose.model("GalleryImage", GalleryImageSchema);
-export default GalleryImage;
+export default mongoose.model("Image", imageSchema);

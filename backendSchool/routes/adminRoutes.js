@@ -5,6 +5,7 @@ import {
   updateSchoolInfo,
   deleteSchoolInfo,
   getSchoolInfo,
+  deleteImageFromCloudinary, // New controller function for deleting images
 } from "../controllers/adminController.js";
 import { authenticateAdmin } from "../middleware/authMiddleware.js";
 
@@ -22,5 +23,8 @@ router.get("/schoolinfo", getSchoolInfo);
 router.post("/schoolinfo", addSchoolInfo);
 router.put("/schoolinfo/:id", updateSchoolInfo);
 router.delete("/schoolinfo/:id", deleteSchoolInfo);
+
+// New route: Delete an image from Cloudinary (and database) by its id
+router.delete("/gallery/:id", deleteImageFromCloudinary);
 
 export default router;
