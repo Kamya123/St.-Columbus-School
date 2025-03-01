@@ -11,7 +11,11 @@ import { authenticateAdmin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // Public route to get school info (no authentication)
-router.get("/schoolinfo/public", getSchoolInfo);
+// In adminRoutes.js
+router.get("/schoolinfo/public", (req, res) => {
+  console.log('PUBLIC ROUTE HIT'); // Check Render logs for this
+  getSchoolInfo(req, res);
+});
 
 // Protected routes for admin management:
 router.get("/schoolinfo", authenticateAdmin, getSchoolInfo);
