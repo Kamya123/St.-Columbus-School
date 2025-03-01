@@ -12,7 +12,7 @@ const router = express.Router();
 
 // Public routes FIRST
 router.get("/schoolinfo/public", (req, res) => {
-  console.log('PUBLIC ROUTE HIT');
+  // console.log('PUBLIC ROUTE HIT');
   getSchoolInfo(req, res);
 });
 
