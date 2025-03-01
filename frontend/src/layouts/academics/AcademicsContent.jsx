@@ -64,7 +64,7 @@ const academicsData = [
   },
 ];
 
-export default function AcademicsContent() {
+export default function  AcademicsContent() {
   return (
     <div className="pt-12 px-24 max-[768px]:px-10 max-[1115px]:px-10">
       <h2 className="text-4xl max-[920px]:text-3xl font-bold text-center font-georgia text-customGray mb-12">

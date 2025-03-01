@@ -21,6 +21,7 @@ import AdminPanel from "./layouts/admin/AdminPanel";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import GalleryPage from "./pages/GalleryPage";
 import AdminSchoolInfoTable from "./layouts/admin/AdminSchoolInfoTable";
+import AdminGallery from "./layouts/admin/AdminGallery";
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -77,6 +78,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminSchoolInfoTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/gallery"
+            element={
+              <ProtectedRoute>
+                <AdminGallery />
               </ProtectedRoute>
             }
           />
