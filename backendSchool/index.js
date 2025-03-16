@@ -1,3 +1,14 @@
+import fs from 'fs';
+import path from 'path';
+
+// Write the service account JSON from environment variable to a temporary file
+if (process.env.SERVICE_ACCOUNT_JSON) {
+  const serviceAccountPath = path.join('/tmp', 'google-service-account.json');
+  fs.writeFileSync(serviceAccountPath, process.env.SERVICE_ACCOUNT_JSON);
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountPath;
+}
+
+
 import 'dotenv/config';
 import express from "express";
 import cors from "cors";
