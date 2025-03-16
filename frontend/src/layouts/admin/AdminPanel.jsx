@@ -259,6 +259,13 @@ const AdminPanel = () => {
                   >
                     {disclosureUploading ? "Uploading..." : "Upload Disclosure"}
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/disclosure")}
+                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                  >
+                    View Disclosure
+                  </button>
                 </div>
               </form>
               {disclosureMessage && (

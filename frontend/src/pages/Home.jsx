@@ -16,6 +16,7 @@ import Announcements from "../layouts/home/Announcements";
 import Gallery from "../layouts/home/Gallery";
 import Testimonials from "../layouts/home/Testimonials";
 import SchoolInfoTable from "../layouts/admin/SchoolInfoTable";
+import PublicMandatoryDisclosure from "../layouts/admin/PublicMandatoryDisclosure";
 
 const Home = () => {
   const [disclosures, setDisclosures] = useState([]);
@@ -53,8 +54,12 @@ const Home = () => {
       </div> */}
 
       {/* School Info Section */}
-      <div className="py-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+      <div className="pt-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
         <SchoolInfoTable />
+      </div>
+
+      <div className="pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+        <PublicMandatoryDisclosure />
       </div>
 
       {/* Highlights with a slide-in from the left */}
