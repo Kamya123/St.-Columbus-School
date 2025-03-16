@@ -11,3 +11,4 @@ logs/
 
 # Ignore other sensitive files (optional)
 uploads/
+secured/

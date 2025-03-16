@@ -13,7 +13,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import galleryRoutes from './routes/galleryRoutes.js';
-
+import disclosureRoutes from "./routes/disclosureRoutes.js";
 
 
 const app = express();
@@ -45,6 +45,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/disclosure", disclosureRoutes);
 
 // Connect to MongoDB
 mongoose
