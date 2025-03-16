@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AdminSchoolInfoTable = () => {
   const [schoolInfo, setSchoolInfo] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editFormData, setEditFormData] = useState({ title: "", description: "" });
   const token = localStorage.getItem("adminToken");
+  const navigate = useNavigate();
 
   // Fetch school info records
   const fetchSchoolInfo = async () => {
@@ -25,7 +27,9 @@ const AdminSchoolInfoTable = () => {
   };
 
   
+  useEffect(() => {
     fetchSchoolInfo();
+  }, []);
 
   // Delete a school info record
   const handleDelete = async (id) => {
@@ -80,9 +84,17 @@ const AdminSchoolInfoTable = () => {
 
   return (
     <div className="bg-reddishWhite p-8 rounded-lg shadow-lg">
-      <h2 className="font-georgia text-3xl text-customGray mb-8">
-        School Information (Admin)
-      </h2>
+      <div className="my-8 flex flex-col items-center md:flex-row md:justify-between">
+          <h2 className="font-georgia text-xl md:text-3xl text-customGray">
+            School Information (Admin)
+          </h2>
+          <button
+            onClick={() => navigate("/admin")}
+            className="mt-4 md:mt-0 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+          >
+            Back to Admin Panel
+          </button>
+        </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-customRed1">
