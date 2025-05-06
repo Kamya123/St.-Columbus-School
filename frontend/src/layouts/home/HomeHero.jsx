@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import HorizontalLine from "../../components/HorizontalLine";
-import heroImage from "../../assets/images/st-columbus.png"; // Add your hero image
+import heroImage from "../../assets/images/scs-gate.jpg"; // Add your hero image
 
 const HomeHero = () => {
   return (
@@ -13,7 +13,7 @@ const HomeHero = () => {
           alt="St. Columbus School Campus"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40 flex items-center">
+        <div className="absolute inset-0 bg-black/30 flex items-center">
           <div className="w-full pt-12 pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 text-white">
             <div className="max-w-6xl mx-auto">
               <div className="flex gap-[8%] max-[768px]:flex-col">
