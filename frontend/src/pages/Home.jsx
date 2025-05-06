@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import computerLab from "../../src/assets/images/computer-lab.jpg";
-import garden from "../../src/assets/images/garden.jpg";
-import sportsGround from "../../src/assets/images/sports-ground.jpeg";
-import classroom from "../../src/assets/images/classroom.jpg";
+import chemLab from "../../src/assets/images/chem-lab-1.jpg";
+import bioLab from "../../src/assets/images/bio-lab.jpg";
+import phyLab from "../../src/assets/images/phy-lab.jpg";
 import playArea from "../../src/assets/images/play-area.jpeg";
-import morningAssembly from "../../src/assets/images/morning-assembly.jpeg";
+import library from "../../src/assets/images/library.jpg";
+import assembly from "../../src/assets/images/assembly.jpg";
 
 import HomeHero from "../layouts/home/HomeHero";
 import Highlights from "../layouts/home/Highlights";
@@ -147,12 +147,12 @@ const Home = () => {
       >
         <Gallery
           images={[
-            { src: computerLab, alt: "Computer Lab" },
-            { src: garden, alt: "School Garden" },
-            { src: sportsGround, alt: "Sports Ground" },
-            { src: classroom, alt: "Classroom" },
-            { src: playArea, alt: "Play Area" },
-            { src: morningAssembly, alt: "Morning Assembly" },
+            { src: chemLab, alt: "Chemistry Lab", title: "Chemistry Lab" },
+            { src: bioLab, alt: "Biology Lab", title: "Biology Lab" },
+            { src: phyLab, alt: "Physics Lab", title: "Physics Lab" },
+            { src: library, alt: "Library", title: "Library" },
+            { src: playArea, alt: "Play Area", title: "Play Area" },
+            { src: assembly, alt: "Morning Assembly", title: "Morning Assembly" },
           ]}
         />
       </motion.div>
