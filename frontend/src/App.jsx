@@ -23,6 +23,8 @@ import GalleryPage from "./pages/GalleryPage";
 import AdminSchoolInfoTable from "./layouts/admin/AdminSchoolInfoTable";
 import AdminGallery from "./layouts/admin/AdminGallery";
 import AdminDisclosureTable from "./layouts/admin/AdminDisclosureTable";
+import AdminAnnouncementsTable from "./layouts/admin/AdminAnnouncementTable";
+import AdminTeachersTable from "./layouts/admin/AdminTeachersTable";
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -98,6 +100,22 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/announcements"
+            element={
+              <ProtectedRoute>
+                <AdminAnnouncementsTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/teachers"
+            element={
+              <ProtectedRoute>
+                <AdminTeachersTable />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
 
@@ -107,62 +125,3 @@ function App() {
 }
 
 export default App;
-
-// // src/App.jsx
-
-// import { Routes, Route, useLocation } from "react-router-dom";
-// import { useEffect, useState } from "react";
-
-// // Import different pages
-// import Home from "./pages/Home";
-// import About from "./pages/About";
-// import Academics from "./pages/Academics";
-// import Activities from "./pages/Activities";
-// import Admission from "./pages/Admission";
-// import Contact from "./pages/Contact";
-
-// import Navbar from "./components/Navbar";
-// import Footer from "./components/Footer";
-// import Admin from "./pages/Admin";
-
-// // Component to scroll to top on route change
-// const ScrollToTop = () => {
-//   const { pathname } = useLocation();
-
-//   useEffect(() => {
-//     window.scrollTo(0, 0);
-//   }, [pathname]);
-
-//   return null;
-// };
-
-// function App() {
-//   const [token, setToken] = useState("");
-
-//   return (
-//     <>
-//       <ScrollToTop />
-//       <Navbar />
-
-//       {/* Route Components */}
-//       <div className="mt-[6rem]">
-//         <Routes>
-//           <Route path="/" element={<Home />} />
-//           <Route path="/home" element={<Home />} />
-//           <Route path="/about" element={<About headerTitle="About Us" />} />
-//           <Route path="/academics" element={<Academics headerTitle="Academics" />} />
-//           <Route path="/activities" element={<Activities headerTitle="Co-curricular Activities" />} />
-//           <Route path="/admission" element={<Admission headerTitle="Admission" />} />
-//           <Route path="/contact" element={<Contact headerTitle="Contact Us" />} />
-//           {/* Pass setToken to the login page */}
-//           <Route path="/admin" element={<Admin />} />
-//         </Routes>
-//       </div>
-
-//       {/* Footer component */}
-//       <Footer />
-//     </>
-//   );
-// }
-
-// export default App;

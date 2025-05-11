@@ -2,10 +2,20 @@ import React from "react";
 import HorizontalLine from "../../components/HorizontalLine";
 
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-based
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
 const AnnouncementItem = ({ date, title, text }) => (
   <div className="flex gap-6 py-6 px-12">
     <div className="w-1/4">
-      <p className="font-georgia text-customRed1 text-lg font-semibold">{date}</p>
+      <p className="font-georgia text-customRed1 text-lg font-semibold">
+        {formatDate(date)}
+      </p>
     </div>
     <div className="w-3/4">
       <h4 className="font-georgia text-xl text-customGray mb-2">{title}</h4>
@@ -13,6 +23,7 @@ const AnnouncementItem = ({ date, title, text }) => (
     </div>
   </div>
 );
+
 
 const Announcements = ({ items }) => {
   return (

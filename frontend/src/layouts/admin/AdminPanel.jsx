@@ -22,6 +22,24 @@ const AdminPanel = () => {
   const [disclosureMessage, setDisclosureMessage] = useState("");
   const [disclosureUploading, setDisclosureUploading] = useState(false);
 
+  // States for announcement
+  const [announcementData, setAnnouncementData] = useState({
+    date: "",
+    title: "",
+    text: "",
+  });
+  const [announcementMessage, setAnnouncementMessage] = useState("");
+  const [savingAnnouncement, setSavingAnnouncement] = useState(false);
+
+  // States for Teachers Section
+  const [newTeacher, setNewTeacher] = useState({
+    name: "",
+    subject: "",
+    image: null,
+  });
+  const [teacherUploading, setTeacherUploading] = useState(false);
+  const [teacherMessage, setTeacherMessage] = useState("");
+
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
 
@@ -111,6 +129,85 @@ const AdminPanel = () => {
     }
   };
 
+  // Handle Announcement Submit
+  const handleAnnouncementSubmit = async (e) => {
+    e.preventDefault();
+    setSavingAnnouncement(true);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/announcements`,
+        announcementData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setAnnouncementMessage("Announcement saved successfully!");
+      setAnnouncementData({ date: "", title: "", text: "" });
+    } catch (error) {
+      console.error("Error saving announcement:", error);
+      setAnnouncementMessage("Error saving announcement.");
+    } finally {
+      setSavingAnnouncement(false);
+    }
+  };
+
+  // Handle Teachers Section
+  const handleTeacherImageUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("folder", "teacher-profiles");
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/uploads`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      return res.data.image;
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      throw error;
+    }
+  };
+
+  const handleTeacherSubmit = async (e) => {
+    e.preventDefault();
+    if (!newTeacher.image) return;
+    setTeacherUploading(true);
+
+    try {
+      // Upload image first
+      const imageData = await handleTeacherImageUpload(newTeacher.image);
+
+      // Create teacher record
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/teachers`,
+        {
+          name: newTeacher.name,
+          subject: newTeacher.subject,
+          image: imageData.url,
+          public_id: imageData.public_id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setTeacherMessage("Teacher added successfully!");
+      setNewTeacher({ name: "", subject: "", image: null });
+    } catch (error) {
+      setTeacherMessage("Error adding teacher");
+    } finally {
+      setTeacherUploading(false);
+    }
+  };
+
   return (
     <div className="admin-page">
       {/* Hero Section */}
@@ -173,7 +270,6 @@ const AdminPanel = () => {
                 </div>
               )}
             </section>
-
             {/* Add School Information Section */}
             <section className="font-roboto">
               <h2 className="font-georgia text-3xl text-customGray mb-8">
@@ -227,7 +323,6 @@ const AdminPanel = () => {
                 </p>
               )}
             </section>
-
             {/* New Section: Upload Public Mandatory Disclosure */}
             <section className="font-roboto md:-mt-32">
               <h2 className="font-georgia text-3xl text-customGray mb-8">
@@ -274,6 +369,143 @@ const AdminPanel = () => {
                     {disclosureMessage}
                   </p>
                 </div>
+              )}
+            </section>
+            {/* Announcement Section */}
+            <section className="font-roboto">
+              <h2 className="font-georgia text-3xl text-customGray mb-8">
+                Add New Announcement
+              </h2>
+              <form onSubmit={handleAnnouncementSubmit}>
+                <div className="mb-4">
+                  <input
+                    type="date"
+                    value={announcementData.date}
+                    onChange={(e) =>
+                      setAnnouncementData({
+                        ...announcementData,
+                        date: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    value={announcementData.title}
+                    onChange={(e) =>
+                      setAnnouncementData({
+                        ...announcementData,
+                        title: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <textarea
+                    placeholder="Announcement Text"
+                    value={announcementData.text}
+                    onChange={(e) =>
+                      setAnnouncementData({
+                        ...announcementData,
+                        text: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md h-32 transition outline-none focus:ring-1 focus:ring-customRed1"
+                    required
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <button
+                    type="submit"
+                    disabled={savingAnnouncement}
+                    className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                  >
+                    {savingAnnouncement ? "Saving..." : "Save Announcement"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/announcements")}
+                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                  >
+                    Manage Announcements
+                  </button>
+                </div>
+              </form>
+              {announcementMessage && (
+                <p className="mt-4 text-green-600">{announcementMessage}</p>
+              )}
+            </section>
+            {/* Teacher's Section */}
+            <section className="font-roboto md:-mt-64">
+              <h2 className="font-georgia text-3xl text-customGray mb-8">
+                Add New Teacher
+              </h2>
+              <form onSubmit={handleTeacherSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Teacher Name"
+                      value={newTeacher.name}
+                      onChange={(e) =>
+                        setNewTeacher({ ...newTeacher, name: e.target.value })
+                      }
+                      className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Subject"
+                      value={newTeacher.subject}
+                      onChange={(e) =>
+                        setNewTeacher({
+                          ...newTeacher,
+                          subject: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <input
+                      type="file"
+                      onChange={(e) =>
+                        setNewTeacher({
+                          ...newTeacher,
+                          image: e.target.files[0],
+                        })
+                      }
+                      className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                      accept="image/*"
+                    />
+                  </div>
+                </div>
+                <div className="mt-6 flex gap-4">
+                  <button
+                    type="submit"
+                    disabled={teacherUploading}
+                    className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                  >
+                    {teacherUploading ? "Uploading..." : "Add Teacher"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/admin/teachers")}
+                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                  >
+                    Manage Teachers
+                  </button>
+                </div>
+              </form>
+              {teacherMessage && (
+                <p className="mt-4 text-green-600">{teacherMessage}</p>
               )}
             </section>
           </div>

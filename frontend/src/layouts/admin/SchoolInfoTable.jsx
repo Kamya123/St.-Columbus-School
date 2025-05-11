@@ -17,7 +17,7 @@ const SchoolInfoTable = () => {
   }, []);
 
   return (
-    <div className="bg-reddishWhite p-8 rounded-lg shadow-lg">
+    <div className="bg-reddishWhite p-4 rounded-lg shadow-lg">
       <h2 className="font-georgia text-3xl text-customGray mb-8">
         School Information
       </h2>

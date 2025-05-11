@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import HorizontalLine from "../../components/HorizontalLine";
 import princImg from "../../assets/images/principal.jpg";
 import { FaQuoteLeft } from "react-icons/fa";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Card from "../../components/Card";
+
 
 const cardData = [
   {
@@ -53,6 +55,21 @@ const TeacherCard = ({ name, subject, image }) => (
 
 const AboutHero = () => {
   const scrollRef = React.useRef(null);
+  const [teachers, setTeachers] = useState([]);
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/teachers`
+        );
+        setTeachers(res.data);
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
+      }
+    };
+    fetchTeachers();
+  }, []);
 
   const handleScroll = (direction) => {
     if (scrollRef.current) {
@@ -194,35 +211,7 @@ const AboutHero = () => {
             className="flex overflow-x-auto no-scrollbar px-4 sm:px-8"
             style={{ scrollbarWidth: "none" }}
           >
-            {[
-              {
-                name: "Mrs. Julia Anderson",
-                subject: "Mathematics",
-                image: "https://source.unsplash.com/1600x900/?teacher,portrait",
-              },
-              {
-                name: "Mr. David Green",
-                subject: "Science",
-                image:
-                  "https://source.unsplash.com/1600x900/?teacher,education",
-              },
-              {
-                name: "Ms. Emily Clarke",
-                subject: "History",
-                image: "https://source.unsplash.com/1600x900/?teacher,school",
-              },
-              {
-                name: "Mr. John Smith",
-                subject: "English",
-                image:
-                  "https://source.unsplash.com/1600x900/?teacher,classroom",
-              },
-              {
-                name: "Mrs. Olivia Brown",
-                subject: "Geography",
-                image: "https://source.unsplash.com/1600x900/?teacher,learning",
-              },
-            ].map((teacher, index) => (
+            {teachers.map((teacher, index) => (
               <TeacherCard
                 key={index}
                 name={teacher.name}

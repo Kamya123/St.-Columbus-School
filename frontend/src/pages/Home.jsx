@@ -20,6 +20,20 @@ import PublicMandatoryDisclosure from "../layouts/admin/PublicMandatoryDisclosur
 
 const Home = () => {
   const [disclosures, setDisclosures] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_BASE_URL}/announcements`)
+      .then((res) => {
+        const sorted = res.data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        setAnnouncements(sorted);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+  
 
   // useEffect(() => {
   //   axios
@@ -58,6 +72,7 @@ const Home = () => {
         <SchoolInfoTable />
       </div>
 
+      {/* Public Mandatory Disclosure */}
       <div className="pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
         <PublicMandatoryDisclosure />
       </div>
@@ -112,7 +127,8 @@ const Home = () => {
         transition={{ duration: 0.6, delay: 0.4 }}
         viewport={{ once: true }}
       >
-        <Announcements
+        <Announcements items={announcements} />
+        {/* <Announcements
           items={[
             {
               date: "2025-02-01",
@@ -135,7 +151,7 @@ const Home = () => {
               text: "The yearly exams for all classes will start from March 1st, 2025.",
             },
           ]}
-        />
+        /> */}
       </motion.div>
 
       {/* Gallery with a subtle zoom-in effect */}
