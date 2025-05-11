@@ -25,6 +25,8 @@ import authRoutes from './routes/authRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import galleryRoutes from './routes/galleryRoutes.js';
 import disclosureRoutes from "./routes/disclosureRoutes.js";
+import announcementRoutes from "./routes/announcementRoutes.js";
+import teacherRoutes from "./routes/teacherRoutes.js";
 
 
 const app = express();
@@ -57,6 +59,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/disclosure", disclosureRoutes);
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/teachers", teacherRoutes);
+
 
 // Connect to MongoDB
 mongoose
