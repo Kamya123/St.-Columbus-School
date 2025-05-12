@@ -44,7 +44,7 @@ const Home = () => {
   // }, []);
 
   return (
-    <div className="home-page">
+    <div className="home-page overflow-hidden">
       {/* HomeHero with a fade-in from above */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

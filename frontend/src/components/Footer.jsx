@@ -1,12 +1,29 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from "react-icons/io5";
+import { NavLink, Link } from "react-router-dom";
+import {
+  IoLogoFacebook,
+  IoLogoInstagram,
+  IoLogoTwitter,
+} from "react-icons/io5";
+import LogoImg from "../assets/images/scs-logo.png";
 
 const Footer = () => {
   const socialMedia = [
-    { name: "Facebook", icon: <IoLogoFacebook size={20} />, link: "https://facebook.com" },
-    { name: "Instagram", icon: <IoLogoInstagram size={20} />, link: "https://instagram.com" },
-    { name: "Twitter", icon: <IoLogoTwitter size={20} />, link: "https://twitter.com" },
+    {
+      name: "Facebook",
+      icon: <IoLogoFacebook size={20} />,
+      link: "https://facebook.com",
+    },
+    {
+      name: "Instagram",
+      icon: <IoLogoInstagram size={20} />,
+      link: "https://instagram.com",
+    },
+    {
+      name: "Twitter",
+      icon: <IoLogoTwitter size={20} />,
+      link: "https://twitter.com",
+    },
   ];
 
   const InfoSection = ({ title, content }) => (
@@ -26,7 +43,10 @@ const Footer = () => {
         {/* Reusable Info Sections */}
         <InfoSection
           title="The St. Columbus School"
-          content={["Kanhaiyachak, near Indian Bank, Parbatta", "Pin: 851216, Khagaria, Bihar"]}
+          content={[
+            "Kanhaiyachak, near Indian Bank, Parbatta",
+            "Pin: 851216, Khagaria, Bihar",
+          ]}
         />
         <InfoSection
           title="Main Office"
@@ -34,24 +54,30 @@ const Footer = () => {
         />
         <InfoSection
           title="Contact Us"
-          content={["+91 0832645672", "stcollambus12@gmail.com"]}
+          content={["+91 7979994015", "stcolumbusschoolparbatta@gmail.com"]}
         />
       </div>
 
       <div className="flex flex-col md:flex-row justify-between items-center pt-12 pb-6 space-y-10 md:space-y-0">
         {/* Logo Section */}
-        <header className="text-center md:text-left">
-          <h1 className="text-4xl font-bold font-roboto leading-none text-customGray">
-            St. Columbus
-          </h1>
-          <h1 className="text-4xl font-bold font-roboto leading-none text-customGray">
-            School
-          </h1>
-        </header>
+        <Link to="/" className="flex items-center gap-2 text-primary">
+          <img src={LogoImg} alt="Sant Columbus School" className="w-10 h-10" />
+          <div className="leading-none font-georgia flex flex-col">
+            <span className="text-md leading-none">Sant Columbus</span>
+            <span className="text-md leading-none">School</span>
+          </div>
+        </Link>
 
         {/* Navigation Links */}
         <nav className="flex flex-wrap justify-center space-x-6 text-lg">
-          {["Home", "About", "Academics", "Activities", "Admission", "Contact"].map((link) => (
+          {[
+            "Home",
+            "About",
+            "Academics",
+            "Activities",
+            "Admission",
+            "Contact",
+          ].map((link) => (
             <NavLink
               key={link}
               to={`/${link.toLowerCase()}`}

@@ -143,7 +143,7 @@ const ContactPage = () => {
                       <br />
                       District: Khagaria
                       <br />
-                      Bihar, India - 851214
+                      Bihar, India - 851216
                     </p>
                   </div>
                 </div>
@@ -165,9 +165,9 @@ const ContactPage = () => {
                   <div>
                     <h3 className="font-semibold text-customGray">Email</h3>
                     <p className="text-gray-600">
-                      info@stcolumbusschool.in
+                      stcolumbusschoolparbatta@gmail.com
                       <br />
-                      admissions@stcolumbusschool.in
+
                     </p>
                   </div>
                 </div>
