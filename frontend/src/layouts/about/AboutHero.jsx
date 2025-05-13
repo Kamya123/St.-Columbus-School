@@ -83,7 +83,7 @@ const AboutHero = () => {
   };
 
   return (
-    <div className="">
+    <div className="overflow-hidden">
       {/* Top Section */}
       <motion.div
         initial={{ opacity: 0, x: -50 }}

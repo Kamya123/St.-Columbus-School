@@ -174,87 +174,53 @@ const AdminPanel = () => {
   };
 
   // Update handleTeacherSubmit function
-const handleTeacherSubmit = async (e) => {
-  e.preventDefault();
-  if (!newTeacher.image) return;
-  setTeacherUploading(true);
+  const handleTeacherSubmit = async (e) => {
+    e.preventDefault();
+    if (!newTeacher.image) return;
+    setTeacherUploading(true);
 
-  try {
-    const formData = new FormData();
-    formData.append("image", newTeacher.image);
+    try {
+      const formData = new FormData();
+      formData.append("image", newTeacher.image);
 
-    // Upload to teacher-specific endpoint
-    const uploadRes = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/uploads/teacher`,
-      formData,
-      {
-        headers: { 
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`
+      // Upload to teacher-specific endpoint
+      const uploadRes = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/uploads/teacher`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }
-    );
+      );
 
-    // Create teacher record with uploaded image data
-    await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/teachers`,
-      {
-        name: newTeacher.name,
-        subject: newTeacher.subject,
-        image: uploadRes.data.image.url,
-        public_id: uploadRes.data.image.public_id
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+      // Create teacher record with uploaded image data
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/teachers`,
+        {
+          name: newTeacher.name,
+          subject: newTeacher.subject,
+          image: uploadRes.data.image.url,
+          public_id: uploadRes.data.image.public_id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }
-    );
+      );
 
-    setTeacherMessage("Teacher added successfully!");
-    setNewTeacher({ name: "", subject: "", image: null });
-  } catch (error) {
-    console.error("Error adding teacher:", error);
-    setTeacherMessage("Error adding teacher");
-  } finally {
-    setTeacherUploading(false);
-  }
-};
-  // const handleTeacherSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!newTeacher.image) return;
-  //   setTeacherUploading(true);
-
-  //   try {
-  //     // Upload image first
-  //     const imageData = await handleTeacherImageUpload(newTeacher.image);
-
-  //     // Create teacher record
-  //     await axios.post(
-  //       `${import.meta.env.VITE_API_BASE_URL}/teachers`,
-  //       {
-  //         name: newTeacher.name,
-  //         subject: newTeacher.subject,
-  //         image: imageData.url,
-  //         public_id: imageData.public_id,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     setTeacherMessage("Teacher added successfully!");
-  //     setNewTeacher({ name: "", subject: "", image: null });
-  //   } catch (error) {
-  //     setTeacherMessage("Error adding teacher");
-  //   } finally {
-  //     setTeacherUploading(false);
-  //   }
-  // };
+      setTeacherMessage("Teacher added successfully!");
+      setNewTeacher({ name: "", subject: "", image: null });
+    } catch (error) {
+      console.error("Error adding teacher:", error);
+      setTeacherMessage("Error adding teacher");
+    } finally {
+      setTeacherUploading(false);
+    }
+  };
 
   return (
     <div className="admin-page">
@@ -280,282 +246,294 @@ const handleTeacherSubmit = async (e) => {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-16 max-[768px]:grid-cols-1">
-            {/* Upload Image Section */}
-            <section className="font-roboto">
-              <h2 className="font-georgia text-3xl text-customGray mb-8">
-                Upload Image to Gallery
-              </h2>
-              <form onSubmit={handleImageUpload}>
-                <div className="mb-4">
-                  <input
-                    type="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
-                  />
-                </div>
-                <div className="flex gap-4 mt-6">
-                  <button
-                    type="submit"
-                    disabled={uploading}
-                    className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
-                  >
-                    {uploading ? "Uploading..." : "Upload Image"}
-                  </button>
-                  {/* View Gallery Button */}
-                  <button
-                    onClick={() => navigate("/admin/gallery")}
-                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
-                  >
-                    View Gallery
-                  </button>
-                </div>
-              </form>
-              {/* Display upload message */}
-              {uploadMessage && (
-                <div className="mt-6">
-                  <p className="text-green-600 font-medium">{uploadMessage}</p>
-                </div>
-              )}
-            </section>
-            {/* Add School Information Section */}
-            <section className="font-roboto">
-              <h2 className="font-georgia text-3xl text-customGray mb-8">
-                Add School Information
-              </h2>
-              <form onSubmit={handleSchoolInfoSubmit}>
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    value={schoolInfo.title}
-                    onChange={(e) =>
-                      setSchoolInfo({ ...schoolInfo, title: e.target.value })
-                    }
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
-                  />
-                </div>
-                <div className="mb-4">
-                  <textarea
-                    placeholder="Description"
-                    value={schoolInfo.description}
-                    onChange={(e) =>
-                      setSchoolInfo({
-                        ...schoolInfo,
-                        description: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1 h-32"
-                  />
-                </div>
-                <div className="flex gap-4">
-                  <button
-                    type="submit"
-                    disabled={savingInfo}
-                    className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
-                  >
-                    {savingInfo ? "Saving..." : "Save Information"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => navigate("/admin/schoolinfo")}
-                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
-                  >
-                    View School Info
-                  </button>
-                </div>
-              </form>
-              {infoMessage && (
-                <p className="mt-4 text-center text-lg text-green-600">
-                  {infoMessage}
-                </p>
-              )}
-            </section>
-            {/* New Section: Upload Public Mandatory Disclosure */}
-            <section className="font-roboto md:-mt-32">
-              <h2 className="font-georgia text-3xl text-customGray mb-8">
-                Upload Public Mandatory Disclosure
-              </h2>
-              <form onSubmit={handleDisclosureUpload}>
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    value={disclosureTitle}
-                    onChange={(e) => setDisclosureTitle(e.target.value)}
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
-                  />
-                </div>
-                <div className="mb-4">
-                  <input
-                    type="file"
-                    onChange={(e) => setDisclosureFile(e.target.files[0])}
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
-                    accept=".pdf, image/*, .doc, .docx"
-                  />
-                </div>
-                <div className="flex gap-4 mt-6">
-                  <button
-                    type="submit"
-                    disabled={disclosureUploading}
-                    className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
-                  >
-                    {disclosureUploading ? "Uploading..." : "Upload Disclosure"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => navigate("/admin/disclosure")}
-                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
-                  >
-                    View Disclosure
-                  </button>
-                </div>
-              </form>
-              {disclosureMessage && (
-                <div className="mt-6">
-                  <p className="text-green-600 font-medium">
-                    {disclosureMessage}
-                  </p>
-                </div>
-              )}
-            </section>
-            {/* Announcement Section */}
-            <section className="font-roboto">
-              <h2 className="font-georgia text-3xl text-customGray mb-8">
-                Add New Announcement
-              </h2>
-              <form onSubmit={handleAnnouncementSubmit}>
-                <div className="mb-4">
-                  <input
-                    type="date"
-                    value={announcementData.date}
-                    onChange={(e) =>
-                      setAnnouncementData({
-                        ...announcementData,
-                        date: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    value={announcementData.title}
-                    onChange={(e) =>
-                      setAnnouncementData({
-                        ...announcementData,
-                        title: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <textarea
-                    placeholder="Announcement Text"
-                    value={announcementData.text}
-                    onChange={(e) =>
-                      setAnnouncementData({
-                        ...announcementData,
-                        text: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md h-32 transition outline-none focus:ring-1 focus:ring-customRed1"
-                    required
-                  />
-                </div>
-                <div className="flex gap-4">
-                  <button
-                    type="submit"
-                    disabled={savingAnnouncement}
-                    className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
-                  >
-                    {savingAnnouncement ? "Saving..." : "Save Announcement"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => navigate("/admin/announcements")}
-                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
-                  >
-                    Manage Announcements
-                  </button>
-                </div>
-              </form>
-              {announcementMessage && (
-                <p className="mt-4 text-green-600">{announcementMessage}</p>
-              )}
-            </section>
-            {/* Teacher's Section */}
-            <section className="font-roboto md:-mt-64">
-              <h2 className="font-georgia text-3xl text-customGray mb-8">
-                Add New Teacher
-              </h2>
-              <form onSubmit={handleTeacherSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Teacher Name"
-                      value={newTeacher.name}
-                      onChange={(e) =>
-                        setNewTeacher({ ...newTeacher, name: e.target.value })
-                      }
-                      className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Subject"
-                      value={newTeacher.subject}
-                      onChange={(e) =>
-                        setNewTeacher({
-                          ...newTeacher,
-                          subject: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
+          <div className="w-full flex justify-between gap-16 max-[768px]:flex-col">
+            <div className="w-1/2 max-[768px]:w-full flex flex-col gap-16">
+              {/* Upload Image Section */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  Upload Image to Gallery
+                </h2>
+                <form onSubmit={handleImageUpload}>
+                  <div className="mb-4">
                     <input
                       type="file"
-                      onChange={(e) =>
-                        setNewTeacher({
-                          ...newTeacher,
-                          image: e.target.files[0],
-                        })
-                      }
-                      className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
-                      accept="image/*"
+                      onChange={(e) => setFile(e.target.files[0])}
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
                     />
                   </div>
-                </div>
-                <div className="mt-6 flex gap-4">
-                  <button
-                    type="submit"
-                    disabled={teacherUploading}
-                    className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
-                  >
-                    {teacherUploading ? "Uploading..." : "Add Teacher"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => navigate("/admin/teachers")}
-                    className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
-                  >
-                    Manage Teachers
-                  </button>
-                </div>
-              </form>
-              {teacherMessage && (
-                <p className="mt-4 text-green-600">{teacherMessage}</p>
-              )}
-            </section>
+                  <div className="flex gap-4 mt-6">
+                    <button
+                      type="submit"
+                      disabled={uploading}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {uploading ? "Uploading..." : "Upload Image"}
+                    </button>
+                    {/* View Gallery Button */}
+                    <button
+                      onClick={() => navigate("/admin/gallery")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      View Gallery
+                    </button>
+                  </div>
+                </form>
+                {/* Display upload message */}
+                {uploadMessage && (
+                  <div className="mt-6">
+                    <p className="text-green-600 font-medium">
+                      {uploadMessage}
+                    </p>
+                  </div>
+                )}
+              </section>
+
+              {/* Announcement Section */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  Add New Announcement
+                </h2>
+                <form onSubmit={handleAnnouncementSubmit}>
+                  <div className="mb-4">
+                    <input
+                      type="date"
+                      value={announcementData.date}
+                      onChange={(e) =>
+                        setAnnouncementData({
+                          ...announcementData,
+                          date: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={announcementData.title}
+                      onChange={(e) =>
+                        setAnnouncementData({
+                          ...announcementData,
+                          title: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <textarea
+                      placeholder="Announcement Text"
+                      value={announcementData.text}
+                      onChange={(e) =>
+                        setAnnouncementData({
+                          ...announcementData,
+                          text: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md h-32 transition outline-none focus:ring-1 focus:ring-customRed1"
+                      required
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <button
+                      type="submit"
+                      disabled={savingAnnouncement}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {savingAnnouncement ? "Saving..." : "Save Announcement"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/admin/announcements")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      Manage Announcements
+                    </button>
+                  </div>
+                </form>
+                {announcementMessage && (
+                  <p className="mt-4 text-green-600">{announcementMessage}</p>
+                )}
+              </section>
+
+              {/* Teacher's Section */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  Add New Teacher
+                </h2>
+                <form onSubmit={handleTeacherSubmit}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Teacher Name"
+                        value={newTeacher.name}
+                        onChange={(e) =>
+                          setNewTeacher({ ...newTeacher, name: e.target.value })
+                        }
+                        className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        value={newTeacher.subject}
+                        onChange={(e) =>
+                          setNewTeacher({
+                            ...newTeacher,
+                            subject: e.target.value,
+                          })
+                        }
+                        className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <input
+                        type="file"
+                        onChange={(e) =>
+                          setNewTeacher({
+                            ...newTeacher,
+                            image: e.target.files[0],
+                          })
+                        }
+                        className="w-full px-4 py-2 border rounded-md transition outline-none focus:ring-1 focus:ring-customRed1"
+                        accept="image/*"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-6 flex gap-4">
+                    <button
+                      type="submit"
+                      disabled={teacherUploading}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {teacherUploading ? "Uploading..." : "Add Teacher"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/admin/teachers")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      Manage Teachers
+                    </button>
+                  </div>
+                </form>
+                {teacherMessage && (
+                  <p className="mt-4 text-green-600">{teacherMessage}</p>
+                )}
+              </section>
+            </div>
+
+            <div className="w-1/2 max-[768px]:w-full flex flex-col gap-16">
+              {/* Add School Information Section */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  Add School Information
+                </h2>
+                <form onSubmit={handleSchoolInfoSubmit}>
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={schoolInfo.title}
+                      onChange={(e) =>
+                        setSchoolInfo({ ...schoolInfo, title: e.target.value })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <textarea
+                      placeholder="Description"
+                      value={schoolInfo.description}
+                      onChange={(e) =>
+                        setSchoolInfo({
+                          ...schoolInfo,
+                          description: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1 h-32"
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <button
+                      type="submit"
+                      disabled={savingInfo}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {savingInfo ? "Saving..." : "Save Information"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/admin/schoolinfo")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      View School Info
+                    </button>
+                  </div>
+                </form>
+                {infoMessage && (
+                  <p className="mt-4 text-center text-lg text-green-600">
+                    {infoMessage}
+                  </p>
+                )}
+              </section>
+
+              {/* New Section: Upload Public Mandatory Disclosure */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  Upload Public Mandatory Disclosure
+                </h2>
+                <form onSubmit={handleDisclosureUpload}>
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={disclosureTitle}
+                      onChange={(e) => setDisclosureTitle(e.target.value)}
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      type="file"
+                      onChange={(e) => setDisclosureFile(e.target.files[0])}
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
+                      accept=".pdf, image/*, .doc, .docx"
+                    />
+                  </div>
+                  <div className="flex gap-4 mt-6">
+                    <button
+                      type="submit"
+                      disabled={disclosureUploading}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {disclosureUploading
+                        ? "Uploading..."
+                        : "Upload Disclosure"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/admin/disclosure")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      View Disclosure
+                    </button>
+                  </div>
+                </form>
+                {disclosureMessage && (
+                  <div className="mt-6">
+                    <p className="text-green-600 font-medium">
+                      {disclosureMessage}
+                    </p>
+                  </div>
+                )}
+              </section>
+            </div>
           </div>
         </div>
       </div>
