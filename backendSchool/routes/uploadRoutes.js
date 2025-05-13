@@ -3,43 +3,60 @@ import express from "express";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import Image from "../models/GalleryImage.js"; // Import the model
+import Image from "../models/GalleryImage.js";
 
 const router = express.Router();
 
-// Configure Cloudinary with credentials from .env
+// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Configure Cloudinary storage for multer
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+// Dynamic storage configuration
+const createStorage = (folder) => new CloudinaryStorage({
+  cloudinary,
   params: {
-    folder: "school-gallery", // Cloudinary folder name
+    folder: `school-app/${folder}`,
     allowed_formats: ["jpg", "jpeg", "png", "gif"],
-  },
+    public_id: (req, file) => `${Date.now()}-${file.originalname}`
+  }
 });
 
-const upload = multer({ storage });
+// Middlewares for different upload types
+const galleryUpload = multer({ storage: createStorage("school-gallery") });
+const teacherUpload = multer({ storage: createStorage("teacher-profiles") });
 
-// Endpoint for uploading a single image and storing its info in MongoDB
-router.post("/", upload.single("image"), async (req, res) => {
+// Gallery image upload (saves to GalleryImage collection)
+router.post("/gallery", galleryUpload.single("image"), async (req, res) => {
   try {
-    // req.file.path holds the Cloudinary URL
-    // req.file.filename holds the Cloudinary public_id
     const newImage = new Image({
       url: req.file.path,
       public_id: req.file.filename,
     });
     await newImage.save();
-
-    res.status(201).json({ message: "Image uploaded successfully", image: newImage });
+    res.status(201).json({ message: "Gallery image uploaded", image: newImage });
   } catch (error) {
-    console.error("Error uploading image:", error);
-    res.status(500).json({ error: "Error uploading image" });
+    console.error("Gallery upload error:", error);
+    res.status(500).json({ error: "Gallery image upload failed" });
+  }
+});
+
+// Teacher image upload (doesn't save to GalleryImage)
+router.post("/teacher", teacherUpload.single("image"), async (req, res) => {
+  try {
+    // Just return the upload details without saving to GalleryImage
+    res.status(201).json({
+      message: "Teacher image uploaded",
+      image: {
+        url: req.file.path,
+        public_id: req.file.filename
+      }
+    });
+  } catch (error) {
+    console.error("Teacher upload error:", error);
+    res.status(500).json({ error: "Teacher image upload failed" });
   }
 });
 

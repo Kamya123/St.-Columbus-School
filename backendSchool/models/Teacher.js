@@ -6,7 +6,8 @@ const teacherSchema = new mongoose.Schema({
   subject: { type: String, required: true },
   image: { type: String, required: true },
   public_id: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  category: { type: String, default: 'teacher' }
 });
 
 export default mongoose.model('Teacher', teacherSchema);

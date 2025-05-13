@@ -14,7 +14,7 @@ export const getTeachers = async (req, res) => {
 export const addTeacher = async (req, res) => {
   const { name, subject, image, public_id } = req.body;
   try {
-    const newTeacher = new Teacher({ name, subject, image, public_id });
+    const newTeacher = new Teacher({ name, subject, image, public_id, category: "teacher" });
     await newTeacher.save();
     res.status(201).json(newTeacher);
   } catch (error) {
