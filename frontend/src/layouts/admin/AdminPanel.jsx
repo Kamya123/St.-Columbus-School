@@ -59,7 +59,7 @@ const AdminPanel = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/uploads`,
+        `${import.meta.env.VITE_API_BASE_URL}/uploads/gallery`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -162,7 +162,7 @@ const AdminPanel = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/uploads`,
+        `${import.meta.env.VITE_API_BASE_URL}/uploads/teacher`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -173,40 +173,88 @@ const AdminPanel = () => {
     }
   };
 
-  const handleTeacherSubmit = async (e) => {
-    e.preventDefault();
-    if (!newTeacher.image) return;
-    setTeacherUploading(true);
+  // Update handleTeacherSubmit function
+const handleTeacherSubmit = async (e) => {
+  e.preventDefault();
+  if (!newTeacher.image) return;
+  setTeacherUploading(true);
 
-    try {
-      // Upload image first
-      const imageData = await handleTeacherImageUpload(newTeacher.image);
+  try {
+    const formData = new FormData();
+    formData.append("image", newTeacher.image);
 
-      // Create teacher record
-      await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/teachers`,
-        {
-          name: newTeacher.name,
-          subject: newTeacher.subject,
-          image: imageData.url,
-          public_id: imageData.public_id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+    // Upload to teacher-specific endpoint
+    const uploadRes = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/uploads/teacher`,
+      formData,
+      {
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`
         }
-      );
+      }
+    );
 
-      setTeacherMessage("Teacher added successfully!");
-      setNewTeacher({ name: "", subject: "", image: null });
-    } catch (error) {
-      setTeacherMessage("Error adding teacher");
-    } finally {
-      setTeacherUploading(false);
-    }
-  };
+    // Create teacher record with uploaded image data
+    await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/teachers`,
+      {
+        name: newTeacher.name,
+        subject: newTeacher.subject,
+        image: uploadRes.data.image.url,
+        public_id: uploadRes.data.image.public_id
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    setTeacherMessage("Teacher added successfully!");
+    setNewTeacher({ name: "", subject: "", image: null });
+  } catch (error) {
+    console.error("Error adding teacher:", error);
+    setTeacherMessage("Error adding teacher");
+  } finally {
+    setTeacherUploading(false);
+  }
+};
+  // const handleTeacherSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!newTeacher.image) return;
+  //   setTeacherUploading(true);
+
+  //   try {
+  //     // Upload image first
+  //     const imageData = await handleTeacherImageUpload(newTeacher.image);
+
+  //     // Create teacher record
+  //     await axios.post(
+  //       `${import.meta.env.VITE_API_BASE_URL}/teachers`,
+  //       {
+  //         name: newTeacher.name,
+  //         subject: newTeacher.subject,
+  //         image: imageData.url,
+  //         public_id: imageData.public_id,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     setTeacherMessage("Teacher added successfully!");
+  //     setNewTeacher({ name: "", subject: "", image: null });
+  //   } catch (error) {
+  //     setTeacherMessage("Error adding teacher");
+  //   } finally {
+  //     setTeacherUploading(false);
+  //   }
+  // };
 
   return (
     <div className="admin-page">
