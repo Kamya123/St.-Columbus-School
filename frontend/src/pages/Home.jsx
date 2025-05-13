@@ -17,6 +17,7 @@ import Gallery from "../layouts/home/Gallery";
 import Testimonials from "../layouts/home/Testimonials";
 import SchoolInfoTable from "../layouts/admin/SchoolInfoTable";
 import PublicMandatoryDisclosure from "../layouts/admin/PublicMandatoryDisclosure";
+import ResultsAcademics from "../layouts/admin/ResultsAcademics";
 
 const Home = () => {
   const [disclosures, setDisclosures] = useState([]);
@@ -73,8 +74,13 @@ const Home = () => {
       </div>
 
       {/* Public Mandatory Disclosure */}
-      <div className="pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+      <div className="px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
         <PublicMandatoryDisclosure />
+      </div>
+
+      {/* C: Results and Academics */}
+      <div className="pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+        <ResultsAcademics />
       </div>
 
       {/* Highlights with a slide-in from the left */}

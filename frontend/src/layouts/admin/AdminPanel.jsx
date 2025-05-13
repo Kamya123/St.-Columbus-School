@@ -11,17 +11,6 @@ const AdminPanel = () => {
   const [uploadMessage, setUploadMessage] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  // States for school info
-  const [schoolInfo, setSchoolInfo] = useState({ title: "", description: "" });
-  const [infoMessage, setInfoMessage] = useState("");
-  const [savingInfo, setSavingInfo] = useState(false);
-
-  // States for Public Mandatory Disclosure upload
-  const [disclosureTitle, setDisclosureTitle] = useState("");
-  const [disclosureFile, setDisclosureFile] = useState(null);
-  const [disclosureMessage, setDisclosureMessage] = useState("");
-  const [disclosureUploading, setDisclosureUploading] = useState(false);
-
   // States for announcement
   const [announcementData, setAnnouncementData] = useState({
     date: "",
@@ -39,6 +28,23 @@ const AdminPanel = () => {
   });
   const [teacherUploading, setTeacherUploading] = useState(false);
   const [teacherMessage, setTeacherMessage] = useState("");
+
+  // States for school info
+  const [schoolInfo, setSchoolInfo] = useState({ title: "", description: "" });
+  const [infoMessage, setInfoMessage] = useState("");
+  const [savingInfo, setSavingInfo] = useState(false);
+
+  // States for Public Mandatory Disclosure upload
+  const [disclosureTitle, setDisclosureTitle] = useState("");
+  const [disclosureFile, setDisclosureFile] = useState(null);
+  const [disclosureMessage, setDisclosureMessage] = useState("");
+  const [disclosureUploading, setDisclosureUploading] = useState(false);
+
+  // --- new States for Section C (Results & Academics) ---
+  const [resultTitle, setResultTitle] = useState("");
+  const [resultFile, setResultFile] = useState(null);
+  const [resultMessage, setResultMessage] = useState("");
+  const [resultUploading, setResultUploading] = useState(false);
 
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
@@ -72,60 +78,6 @@ const AdminPanel = () => {
       setUploadMessage("Image upload failed. Please try again.");
     } finally {
       setUploading(false);
-    }
-  };
-
-  // Handle school info submission
-  const handleSchoolInfoSubmit = async (e) => {
-    e.preventDefault();
-    setSavingInfo(true);
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/admin/schoolinfo`,
-        schoolInfo,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setInfoMessage("School information saved successfully!");
-      setSchoolInfo({ title: "", description: "" });
-    } catch (error) {
-      console.error("Error saving school info:", error);
-      setInfoMessage("Error saving school information.");
-    } finally {
-      setSavingInfo(false);
-    }
-  };
-
-  // Handle Public Mandatory Disclosure upload
-  const handleDisclosureUpload = async (e) => {
-    e.preventDefault();
-    if (!disclosureTitle || !disclosureFile) return;
-    setDisclosureUploading(true);
-    const formData = new FormData();
-    formData.append("title", disclosureTitle);
-    formData.append("document", disclosureFile);
-
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/disclosure`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      setDisclosureMessage("Disclosure uploaded successfully!");
-      // Optionally, clear the form
-      setDisclosureTitle("");
-      setDisclosureFile(null);
-    } catch (error) {
-      console.error("Disclosure upload failed:", error);
-      setDisclosureMessage("Disclosure upload failed. Please try again.");
-    } finally {
-      setDisclosureUploading(false);
     }
   };
 
@@ -219,6 +171,92 @@ const AdminPanel = () => {
       setTeacherMessage("Error adding teacher");
     } finally {
       setTeacherUploading(false);
+    }
+  };
+
+  // Handle school info submission
+  const handleSchoolInfoSubmit = async (e) => {
+    e.preventDefault();
+    setSavingInfo(true);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/admin/schoolinfo`,
+        schoolInfo,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setInfoMessage("School information saved successfully!");
+      setSchoolInfo({ title: "", description: "" });
+    } catch (error) {
+      console.error("Error saving school info:", error);
+      setInfoMessage("Error saving school information.");
+    } finally {
+      setSavingInfo(false);
+    }
+  };
+
+  // Handle Public Mandatory Disclosure upload
+  const handleDisclosureUpload = async (e) => {
+    e.preventDefault();
+    if (!disclosureTitle || !disclosureFile) return;
+    setDisclosureUploading(true);
+    const formData = new FormData();
+    formData.append("title", disclosureTitle);
+    formData.append("document", disclosureFile);
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/disclosure`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      setDisclosureMessage("Disclosure uploaded successfully!");
+      // Optionally, clear the form
+      setDisclosureTitle("");
+      setDisclosureFile(null);
+    } catch (error) {
+      console.error("Disclosure upload failed:", error);
+      setDisclosureMessage("Disclosure upload failed. Please try again.");
+    } finally {
+      setDisclosureUploading(false);
+    }
+  };
+
+  // --- new handler: upload Results & Academics ---
+  const handleResultsUpload = async (e) => {
+    e.preventDefault();
+    if (!resultTitle || !resultFile) return;
+    setResultUploading(true);
+
+    const formData = new FormData();
+    formData.append("title", resultTitle);
+    formData.append("document", resultFile);
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/results`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setResultMessage("Results uploaded successfully!");
+      setResultTitle("");
+      setResultFile(null);
+    } catch (err) {
+      console.error("Error uploading results:", err);
+      setResultMessage("Upload failed. Please try again.");
+    } finally {
+      setResultUploading(false);
     }
   };
 
@@ -483,7 +521,7 @@ const AdminPanel = () => {
                 )}
               </section>
 
-              {/* New Section: Upload Public Mandatory Disclosure */}
+              {/* B: Upload Public Mandatory Disclosure */}
               <section className="font-roboto">
                 <h2 className="font-georgia text-3xl text-customGray mb-8">
                   B: Documents and Information
@@ -531,6 +569,51 @@ const AdminPanel = () => {
                       {disclosureMessage}
                     </p>
                   </div>
+                )}
+              </section>
+
+              {/* C: Results and Academics */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  C: Results and Academics
+                </h2>
+                <form onSubmit={handleResultsUpload}>
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={resultTitle}
+                      onChange={(e) => setResultTitle(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-customRed1 transition"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <input
+                      type="file"
+                      accept=".pdf, image/*, .doc, .docx"
+                      onChange={(e) => setResultFile(e.target.files[0])}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-customRed1 transition"
+                    />
+                  </div>
+                  <div className="flex gap-4 mt-6">
+                    <button
+                      type="submit"
+                      disabled={resultUploading}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {resultUploading ? "Uploading…" : "Upload Results"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/admin/results")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      View Results
+                    </button>
+                  </div>
+                </form>
+                {resultMessage && (
+                  <p className="mt-4 text-green-600">{resultMessage}</p>
                 )}
               </section>
             </div>

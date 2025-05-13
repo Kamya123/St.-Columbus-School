@@ -20,7 +20,7 @@ const PublicMandatoryDisclosure = () => {
   }, []);
 
   return (
-    <div className="p-4 uppercase mt-16">
+    <div className="p-4 uppercase mt-8">
       <h2 className="font-georgia text-2xl text-customRed1 border-b-2 border-b-customRed1 mb-8">
         B: Documents and Information
       </h2>
