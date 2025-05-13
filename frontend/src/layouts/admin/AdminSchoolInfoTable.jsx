@@ -1,3 +1,4 @@
+
 // frontend/src/components/AdminSchoolInfoTable.jsx
 
 import { useState, useEffect } from "react";
@@ -14,19 +15,15 @@ const AdminSchoolInfoTable = () => {
   // Fetch school info records
   const fetchSchoolInfo = async () => {
     try {
-      console.log("going for request");
       const res = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/admin/schoolinfo/public`
       );
-      console.log("request done");
       setSchoolInfo(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error("Error fetching school info", error);
     }
   };
 
-  
   useEffect(() => {
     fetchSchoolInfo();
   }, []);
@@ -37,11 +34,7 @@ const AdminSchoolInfoTable = () => {
       try {
         await axios.delete(
           `${import.meta.env.VITE_API_BASE_URL}/admin/schoolinfo/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         fetchSchoolInfo();
       } catch (error) {
@@ -85,62 +78,74 @@ const AdminSchoolInfoTable = () => {
   return (
     <div className="bg-reddishWhite p-8 rounded-lg shadow-lg">
       <div className="my-8 flex flex-col items-center md:flex-row md:justify-between">
-          <h2 className="font-georgia text-xl md:text-3xl text-customGray">
-            School Information (Admin)
-          </h2>
-          <button
-            onClick={() => navigate("/admin")}
-            className="mt-4 md:mt-0 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
-          >
-            Back to Admin Panel
-          </button>
-        </div>
+        <h2 className="font-georgia text-xl md:text-3xl text-customGray">
+          School Information (Admin)
+        </h2>
+        <button
+          onClick={() => navigate("/admin")}
+          className="mt-4 md:mt-0 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+        >
+          Back to Admin Panel
+        </button>
+      </div>
+
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="min-w-full table-fixed border-collapse border border-gray-300">
           <thead className="bg-customRed1">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                Title
+              <th className="border border-gray-300 px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider w-20">
+                Sl No.
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                Description
+              <th className="border border-gray-300 px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider w-48">
+                Information
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+              <th className="border border-gray-300 px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider w-96">
+                Details
+              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider w-40">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {schoolInfo.map((info) => (
+          <tbody className="bg-white">
+            {schoolInfo.map((info, index) => (
               <tr key={info._id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {editingId === info._id ? (
-                    <input
-                      type="text"
-                      value={editFormData.title}
-                      onChange={(e) =>
-                        setEditFormData({ ...editFormData, title: e.target.value })
-                      }
-                      className="px-2 py-1 border rounded-md"
-                    />
-                  ) : (
-                    info.title
-                  )}
+                <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">
+                  {index + 1}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {editingId === info._id ? (
-                    <textarea
-                      value={editFormData.description}
-                      onChange={(e) =>
-                        setEditFormData({ ...editFormData, description: e.target.value })
-                      }
-                      className="px-2 py-1 border rounded-md"
-                    />
-                  ) : (
-                    info.description
-                  )}
+                <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">
+                  <div className="w-full overflow-x-auto whitespace-nowrap">
+                    {editingId === info._id ? (
+                      <input
+                        type="text"
+                        value={editFormData.title}
+                        onChange={(e) =>
+                          setEditFormData({ ...editFormData, title: e.target.value })
+                        }
+                        className="px-2 py-1 border rounded-md w-full"
+                      />
+                    ) : (
+                      info.title
+                    )}
+                  </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">
+                  <div className="w-full overflow-x-auto whitespace-nowrap">
+                    {editingId === info._id ? (
+                      <textarea
+                        value={editFormData.description}
+                        onChange={(e) =>
+                          setEditFormData({ ...editFormData, description: e.target.value })
+                        }
+                        className="px-2 py-1 border rounded-md w-full"
+                        rows={2}
+                      />
+                    ) : (
+                      info.description
+                    )}
+                  </div>
+                </td>
+                <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">
                   {editingId === info._id ? (
                     <div className="flex space-x-2">
                       <button
