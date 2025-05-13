@@ -432,7 +432,7 @@ const AdminPanel = () => {
               {/* Add School Information Section */}
               <section className="font-roboto">
                 <h2 className="font-georgia text-3xl text-customGray mb-8">
-                  Add School Information
+                  A: School Information
                 </h2>
                 <form onSubmit={handleSchoolInfoSubmit}>
                   <div className="mb-4">
@@ -486,7 +486,7 @@ const AdminPanel = () => {
               {/* New Section: Upload Public Mandatory Disclosure */}
               <section className="font-roboto">
                 <h2 className="font-georgia text-3xl text-customGray mb-8">
-                  Upload Public Mandatory Disclosure
+                  B: Documents and Information
                 </h2>
                 <form onSubmit={handleDisclosureUpload}>
                   <div className="mb-4">

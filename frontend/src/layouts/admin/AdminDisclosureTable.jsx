@@ -49,22 +49,36 @@ const AdminDisclosureTable = () => {
         </div>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-customRed1">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-              Title
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-              Actions
-            </th>
-          </tr>
-        </thead>
+            <tr>
+              <th
+                className="border border-gray-300 px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider w-20"
+              >
+                Sl No.
+              </th>
+              <th
+                className="border min-w-[75%] border-gray-300 px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-break-spaces"
+              >
+                Documents/Information
+              </th>
+              <th
+                className="border max-w-[25%] border-gray-300 px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-break-spaces"
+              >
+                Links of Uploaded Documents on your School's Website
+              </th>
+            </tr>
+          </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {disclosures.map((disc) => (
+          {disclosures.map((disc, i) => (
             <tr key={disc._id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {disc.title}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">
+                  {i + 1}
+                </td>
+              <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">
+                  <div className="min-w-[75%] overflow-x-auto whitespace-break-spaces">
+                    {disc.title}
+                  </div>
+                </td>
+              <td className="border text-center border-gray-300 px-4 py-2 text-sm text-gray-900">
                 <button
                   onClick={() => window.open(disc.webViewLink, "_blank")}
                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 mr-2"
