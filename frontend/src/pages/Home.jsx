@@ -36,7 +36,6 @@ const Home = () => {
       })
       .catch((err) => console.error(err));
   }, []);
-  
 
   // useEffect(() => {
   //   axios
@@ -71,27 +70,27 @@ const Home = () => {
       </div> */}
 
       {/* School Info Section */}
-      <div className="pt-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+      <div className="pt-16 px-[4.5rem] max-[768px]:px-2 max-[1115px]:px-10 bg-white">
         <SchoolInfoTable />
       </div>
 
       {/* Public Mandatory Disclosure */}
-      <div className="px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+      <div className="px-[4.5rem] max-[768px]:px-2 max-[1115px]:px-10 bg-white">
         <PublicMandatoryDisclosure />
       </div>
 
       {/* C: Results and Academics */}
-      <div className="pb-8 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+      <div className="pb-8 px-[4.5rem] max-[768px]:px-2 max-[1115px]:px-10 bg-white">
         <ResultsAcademics />
       </div>
 
       {/* D: Staff(Teaching) */}
-      <div className="pb-8 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+      <div className="pb-8 px-[4.5rem] max-[768px]:px-2 max-[1115px]:px-10 bg-white">
         <StaffTable />
       </div>
 
       {/* E: School Infratructure */}
-      <div className="pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+      <div className="pb-16 px-[4.5rem] max-[768px]:px-2 max-[1115px]:px-10 bg-white">
         <SchoolInfrastructureTable />
       </div>
 
@@ -186,7 +185,11 @@ const Home = () => {
             { src: phyLab, alt: "Physics Lab", title: "Physics Lab" },
             { src: library, alt: "Library", title: "Library" },
             { src: playArea, alt: "Play Area", title: "Play Area" },
-            { src: assembly, alt: "Morning Assembly", title: "Morning Assembly" },
+            {
+              src: assembly,
+              alt: "Morning Assembly",
+              title: "Morning Assembly",
+            },
           ]}
         />
       </motion.div>
@@ -201,19 +204,19 @@ const Home = () => {
         <Testimonials
           items={[
             {
-              text: "The nurturing environment at St. Columbus gave me the confidence to chase my dreams. From academics to extracurriculars, every experience here prepared me for the future. Forever grateful! 🙌🎓",
-              author: "Rahul Sharma",
-              role: "Alumni (Batch 20XX)",
-            },
-            {
-              text: "Studying at St. Columbus was a transformative experience. The school's dedication to excellence and holistic development helped shape my career and character. The supportive faculty and city-level infrastructure in a rural setting made learning truly enriching! 🎓❤️",
+              text: "I still remember my first day at St. Columbus—nervous, excited, and curious. Thanks to the warm teachers and endless encouragement, I found my voice in debate club and aced my board exams. This school didn’t just teach me facts; it taught me confidence and community. Forever grateful! 🎉",
               author: "Kamya Kumari",
               role: "Alumni (Batch 2017)",
             },
             {
-              text: "St. Columbus is more than just a school; it's a second home. The guidance and values instilled here continue to shape my personal and professional journey. Proud to be an alumnus! 💙📖",
-              author: "Sneha Patel",
-              role: "Alumni (Batch 20XX)",
+              text: "Growing up in a rural town, I never imagined I’d perform on a stage at a city‐level fest. St. Columbus gave me the chance—and the support—to shine in drama and music. The lessons I learned here go far beyond books; they’re life lessons I carry with me every day. ❤️",
+              author: "Priyam Kumari",
+              role: "Alumni (Batch 2017)",
+            },
+            {
+              text: "To me, St. Columbus has always been a second home. The mentors here believed in me—sometimes more than I believed in myself—and helped me turn my passion for coding into a real project. I’m proud to call myself a Columbus member and to stay connected with this incredible community. 💻✨",
+              author: "Amit Kumar Arya",
+              role: "Alumni (Batch 2017)",
             },
           ]}
         />
