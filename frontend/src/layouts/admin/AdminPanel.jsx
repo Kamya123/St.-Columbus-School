@@ -46,10 +46,15 @@ const AdminPanel = () => {
   const [resultMessage, setResultMessage] = useState("");
   const [resultUploading, setResultUploading] = useState(false);
 
-  // States for school info
+  // States for staff info
   const [staffInfo, setStaffInfo] = useState({ title: "", description: "" });
   const [staffInfoMessage, setStaffInfoMessage] = useState("");
   const [savingStaffInfo, setSavingStaffInfo] = useState(false);
+
+  // States for schol infrastructure info
+  const [schoolInfraInfo, setSchoolInfraInfo] = useState({ title: "", description: "" });
+  const [schoolInfraInfoMessage, setSchoolInfraInfoMessage] = useState("");
+  const [savingSchoolInfraInfo, setSavingSchoolInfraInfo] = useState(false);
 
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
@@ -265,7 +270,7 @@ const AdminPanel = () => {
     }
   };
 
-  // Handle school info submission
+  // Handle staff info submission
   const handleStaffInfoSubmit = async (e) => {
     e.preventDefault();
     setSavingStaffInfo(true);
@@ -287,6 +292,31 @@ const AdminPanel = () => {
       setStaffInfoMessage("Error saving staff information.");
     } finally {
       setSavingStaffInfo(false);
+    }
+  };
+
+  // Handle staff info submission
+  const handleSchoolInfraInfoSubmit = async (e) => {
+    e.preventDefault();
+    setSavingSchoolInfraInfo(true);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/schoolinfra`,
+        schoolInfraInfo,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSchoolInfraInfoMessage("School Infrastructure information saved successfully!");
+      setSchoolInfraInfo({ title: "", description: "" });
+    } catch (error) {
+      console.error("Error saving school infrastructure info:", error);
+      setSchoolInfraInfoMessage("Error saving school infrastructure information.");
+    } finally {
+      setSavingSchoolInfraInfo(false);
     }
   };
 
@@ -697,6 +727,60 @@ const AdminPanel = () => {
                 {staffInfoMessage && (
                   <p className="mt-4 text-center text-lg text-green-600">
                     {staffInfoMessage}
+                  </p>
+                )}
+              </section>
+
+              {/* E: School Infrastructure */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  E: School Infrastructure
+                </h2>
+                <form onSubmit={handleSchoolInfraInfoSubmit}>
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={schoolInfraInfo.title}
+                      onChange={(e) =>
+                        setSchoolInfraInfo({ ...schoolInfraInfo, title: e.target.value })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <textarea
+                      placeholder="Description"
+                      value={schoolInfraInfo.description}
+                      onChange={(e) =>
+                        setSchoolInfraInfo({
+                          ...schoolInfraInfo,
+                          description: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1 h-32"
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <button
+                      type="submit"
+                      disabled={savingSchoolInfraInfo}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {savingSchoolInfraInfo ? "Saving..." : "Save Information"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/admin/schoolinfra")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      View Infrastructure
+                    </button>
+                  </div>
+                </form>
+                {schoolInfraInfoMessage && (
+                  <p className="mt-4 text-center text-lg text-green-600">
+                    {schoolInfraInfoMessage}
                   </p>
                 )}
               </section>

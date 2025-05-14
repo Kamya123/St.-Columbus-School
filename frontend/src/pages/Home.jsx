@@ -19,6 +19,7 @@ import SchoolInfoTable from "../layouts/admin/SchoolInfoTable";
 import PublicMandatoryDisclosure from "../layouts/admin/PublicMandatoryDisclosure";
 import ResultsAcademics from "../layouts/admin/ResultsAcademics";
 import StaffTable from "../layouts/admin/StaffTable";
+import SchoolInfrastructureTable from "../layouts/admin/SchoolInfrastructureTable";
 
 const Home = () => {
   const [disclosures, setDisclosures] = useState([]);
@@ -87,6 +88,11 @@ const Home = () => {
       {/* D: Staff(Teaching) */}
       <div className="pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
         <StaffTable />
+      </div>
+
+      {/* E: School Infratructure */}
+      <div className="pb-16 px-[4.5rem] max-[768px]:px-6 max-[1115px]:px-10 bg-white">
+        <SchoolInfrastructureTable />
       </div>
 
       {/* Highlights with a slide-in from the left */}
