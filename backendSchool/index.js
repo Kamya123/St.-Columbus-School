@@ -27,6 +27,7 @@ import galleryRoutes from './routes/galleryRoutes.js';
 import disclosureRoutes from "./routes/disclosureRoutes.js";
 import resultsRoutes from "./routes/resultsRoutes.js";
 import staffsRoutes from "./routes/staffsRoutes.js";
+import infrastructureRoutes from "./routes/infrastructureRoutes.js";
 import announcementRoutes from "./routes/announcementRoutes.js";
 import teacherRoutes from "./routes/teacherRoutes.js";
 
@@ -63,6 +64,7 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/disclosure", disclosureRoutes);
 app.use("/api/results", resultsRoutes);
 app.use("/api/staffs", staffsRoutes);
+app.use("/api/schoolinfra", infrastructureRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/teachers", teacherRoutes);
 

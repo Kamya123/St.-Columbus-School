@@ -1,4 +1,4 @@
-// backend/controllers/adminController.js
+// backend/controllers/staffsController.js
 import Staffs from "../models/Staffs.js";
 
 // Get all staff info records
