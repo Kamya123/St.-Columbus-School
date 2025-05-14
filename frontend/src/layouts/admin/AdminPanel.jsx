@@ -46,6 +46,11 @@ const AdminPanel = () => {
   const [resultMessage, setResultMessage] = useState("");
   const [resultUploading, setResultUploading] = useState(false);
 
+  // States for school info
+  const [staffInfo, setStaffInfo] = useState({ title: "", description: "" });
+  const [staffInfoMessage, setStaffInfoMessage] = useState("");
+  const [savingStaffInfo, setSavingStaffInfo] = useState(false);
+
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
 
@@ -257,6 +262,31 @@ const AdminPanel = () => {
       setResultMessage("Upload failed. Please try again.");
     } finally {
       setResultUploading(false);
+    }
+  };
+
+  // Handle school info submission
+  const handleStaffInfoSubmit = async (e) => {
+    e.preventDefault();
+    setSavingStaffInfo(true);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/staffs`,
+        staffInfo,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setStaffInfoMessage("Staff information saved successfully!");
+      setStaffInfo({ title: "", description: "" });
+    } catch (error) {
+      console.error("Error saving staff info:", error);
+      setStaffInfoMessage("Error saving staff information.");
+    } finally {
+      setSavingStaffInfo(false);
     }
   };
 
@@ -614,6 +644,60 @@ const AdminPanel = () => {
                 </form>
                 {resultMessage && (
                   <p className="mt-4 text-green-600">{resultMessage}</p>
+                )}
+              </section>
+
+              {/* D: Staff (Teaching) */}
+              <section className="font-roboto">
+                <h2 className="font-georgia text-3xl text-customGray mb-8">
+                  D: Staff (Teaching)
+                </h2>
+                <form onSubmit={handleStaffInfoSubmit}>
+                  <div className="mb-4">
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      value={staffInfo.title}
+                      onChange={(e) =>
+                        setStaffInfo({ ...staffInfo, title: e.target.value })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <textarea
+                      placeholder="Description"
+                      value={staffInfo.description}
+                      onChange={(e) =>
+                        setStaffInfo({
+                          ...staffInfo,
+                          description: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border text-customDark border-gray-300 rounded-md focus:outline-none transition focus:ring-1 focus:ring-customRed1 h-32"
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <button
+                      type="submit"
+                      disabled={savingStaffInfo}
+                      className="bg-customRed1 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                    >
+                      {savingStaffInfo ? "Saving..." : "Save Information"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("/admin/staffinfo")}
+                      className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition"
+                    >
+                      View Staff Info
+                    </button>
+                  </div>
+                </form>
+                {staffInfoMessage && (
+                  <p className="mt-4 text-center text-lg text-green-600">
+                    {staffInfoMessage}
+                  </p>
                 )}
               </section>
             </div>

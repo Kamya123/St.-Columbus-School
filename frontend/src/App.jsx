@@ -26,6 +26,7 @@ import AdminDisclosureTable from "./layouts/admin/AdminDisclosureTable";
 import AdminAnnouncementsTable from "./layouts/admin/AdminAnnouncementTable";
 import AdminTeachersTable from "./layouts/admin/AdminTeachersTable";
 import AdminResultsTable from "./layouts/admin/AdminResultsTable";
+import AdminStaffTable from "./layouts/admin/AdminStaffTable";
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -106,6 +107,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminResultsTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/staffinfo"
+            element={
+              <ProtectedRoute>
+                <AdminStaffTable />
               </ProtectedRoute>
             }
           />
