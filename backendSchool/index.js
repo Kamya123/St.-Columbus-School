@@ -1,6 +1,7 @@
 // backend/index.js
 import fs from 'fs';
 import path from 'path';
+import 'dotenv/config';
 
 // Write Google Service Account JSON to /tmp (required on Vercel)
 if (process.env.SERVICE_ACCOUNT_JSON) {
@@ -9,7 +10,6 @@ if (process.env.SERVICE_ACCOUNT_JSON) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountPath;
 }
 
-import 'dotenv/config';
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
