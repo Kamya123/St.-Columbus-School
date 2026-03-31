@@ -16,18 +16,18 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
 // Import all routes
-import admissionRoutes from "../routes/admissionRoutes.js";
-import contactRoutes from "../routes/contactRoutes.js";
-import adminRoutes from '../routes/adminRoutes.js';
-import authRoutes from '../routes/authRoutes.js';
-import uploadRoutes from '../routes/uploadRoutes.js';
-import galleryRoutes from '../routes/galleryRoutes.js';
-import disclosureRoutes from "../routes/disclosureRoutes.js";
-import resultsRoutes from "../routes/resultsRoutes.js";
-import staffsRoutes from "../routes/staffsRoutes.js";
-import infrastructureRoutes from "../routes/infrastructureRoutes.js";
-import announcementRoutes from "../routes/announcementRoutes.js";
-import teacherRoutes from "../routes/teacherRoutes.js";
+import admissionRoutes from "./routes/admissionRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import adminRoutes from './routes/adminRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
+import galleryRoutes from './routes/galleryRoutes.js';
+import disclosureRoutes from "./routes/disclosureRoutes.js";
+import resultsRoutes from "./routes/resultsRoutes.js";
+import staffsRoutes from "./routes/staffsRoutes.js";
+import infrastructureRoutes from "./routes/infrastructureRoutes.js";
+import announcementRoutes from "./routes/announcementRoutes.js";
+import teacherRoutes from "./routes/teacherRoutes.js";
 
 const app = express();
 const MONGO_URI = process.env.MONGODB_URL;
