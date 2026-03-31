@@ -1,0 +1,76 @@
+// backend/index.js
+import fs from 'fs';
+import path from 'path';
+import 'dotenv/config';
+
+// Write Google Service Account JSON to /tmp (required on Vercel)
+if (process.env.SERVICE_ACCOUNT_JSON) {
+  const serviceAccountPath = path.join('/tmp', 'google-service-account.json');
+  fs.writeFileSync(serviceAccountPath, process.env.SERVICE_ACCOUNT_JSON);
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountPath;
+}
+
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+
+// Import all routes
+import admissionRoutes from "../routes/admissionRoutes.js";
+import contactRoutes from "../routes/contactRoutes.js";
+import adminRoutes from '../routes/adminRoutes.js';
+import authRoutes from '../routes/authRoutes.js';
+import uploadRoutes from '../routes/uploadRoutes.js';
+import galleryRoutes from '../routes/galleryRoutes.js';
+import disclosureRoutes from "../routes/disclosureRoutes.js";
+import resultsRoutes from "../routes/resultsRoutes.js";
+import staffsRoutes from "../routes/staffsRoutes.js";
+import infrastructureRoutes from "../routes/infrastructureRoutes.js";
+import announcementRoutes from "../routes/announcementRoutes.js";
+import teacherRoutes from "../routes/teacherRoutes.js";
+
+const app = express();
+const MONGO_URI = process.env.MONGODB_URL;
+
+// Middleware
+app.use(
+  cors({
+    origin: "*",   // Change to your domain in production: 'https://st-columbus-school.vercel.app'
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    credentials: true
+  })
+);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Mount all routes
+app.use("/api/admission", admissionRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/uploads", uploadRoutes);        // ← Your upload routes
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/disclosure", disclosureRoutes);
+app.use("/api/results", resultsRoutes);
+app.use("/api/staffs", staffsRoutes);
+app.use("/api/schoolinfra", infrastructureRoutes);
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/teachers", teacherRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Backend is running on Vercel! ✅");
+});
+
+// Connect to MongoDB
+mongoose
+  .connect(MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB connected successfully");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err.message);
+  });
+
+// IMPORTANT: Export app for Vercel Serverless Functions
+export default app;
