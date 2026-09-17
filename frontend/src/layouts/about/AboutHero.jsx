@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import HorizontalLine from "../../components/HorizontalLine";
-import princImg from "../../assets/images/principal.jpg";
-import { FaQuoteLeft } from "react-icons/fa";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Card from "../../components/Card";
 
+// Import separate images for each leader (Replace these paths with your actual image paths)
+import managerImg from "../../assets/images/principal.jpg"; // Replace/update as needed
+import chairmanImg from "../../assets/images/principal.jpg"; // Replace with chairman image path
+import principalImg from "../../assets/images/principal.jpg"; // Replace with principal image path
 
 const cardData = [
   {
@@ -32,6 +34,34 @@ const cardData = [
   },
 ];
 
+// Dynamic data array for Manager, Chairman, and Principal
+const leadersData = [
+  {
+    id: "manager",
+    name: "Niranjan Kumar Sandilya",
+    role: "Manager",
+    image: managerImg,
+    quote:
+      "Everyday at the St Columbus School is like a blessing with the active students and talented staff members around.",
+  },
+  {
+    id: "chairman",
+    name: "Udaykant Choudhury",
+    role: "Chairman",
+    image: chairmanImg,
+    quote:
+      "Our mission is to build a strong foundation of values, knowledge, and character that empowers students to lead with integrity.",
+  },
+  {
+    id: "principal",
+    name: "Mrs. Lawleen Duttatrey",
+    role: "Principal",
+    image: principalImg,
+    quote:
+      "Education is not just about learning facts, but training the mind to think critically, compassionately, and independently.",
+  },
+];
+
 const StatCard = ({ value, label }) => (
   <div className="text-center">
     <span className="text-7xl max-[768px]:font-semibold max-[768px]:text-4xl max-[1024px]:text-5xl text-customRed1 font-bold">
@@ -51,6 +81,36 @@ const TeacherCard = ({ name, subject, image }) => (
       <p className="text-gray-600 mt-2">{subject}</p>
     </div>
   </div>
+);
+
+// Helper component for Leader Quote sections
+const LeaderQuoteCard = ({ leader, delay }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, delay }}
+    viewport={{ once: true }}
+    className="bg-reddishWhite mb-8"
+  >
+    <div className="py-16 md:py-24 md:px-10 lg:px-20 flex gap-[6%] max-[768px]:pt-10 max-[768px]:pb-10 max-[768px]:block">
+      <div className="max-[768px]:px-[8%] max-[768px]:flex max-[768px]:justify-center">
+        <img
+          src={leader.image}
+          alt={leader.name}
+          className="w-[70em] h-[30rem] rounded-lg shadow-lg max-[768px]:w-[22rem] max-[768px]:h-[30rem] object-cover max-[1024px]:w-[44em] max-[1024px]:h-[22em]"
+        />
+      </div>
+      <div className="font-georgia flex flex-col justify-center max-[768px]:px-6 max-[768px]:gap-5 max-[768px]:pt-5">
+        <FaQuoteLeft className="text-customRed1 text-4xl max-[768px]:text-2xl max-[1024px]:text-3xl" />
+        <h1 className="md:py-8 italic text-4xl lg:text-5xl leading-[3.5rem] lg:leading-[4rem] text-customGray max-[768px]:text-2xl max-[1024px]:text-3xl">
+          "{leader.quote}"
+        </h1>
+        <span className="text-2xl font-semibold">
+          {leader.name} - {leader.role}
+        </span>
+      </div>
+    </div>
+  </motion.div>
 );
 
 const AboutHero = () => {
@@ -117,34 +177,14 @@ const AboutHero = () => {
         </div>
       </motion.div>
 
-      {/* Principal Quote Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        viewport={{ once: true }}
-        className="bg-reddishWhite"
-      >
-        <div className="py-24 md:px-10 lg:px-20 flex gap-[6%] max-[768px]:pt-0 max-[768px]:pb-10 max-[768px]:block">
-          <div className="max-[768px]:px-[8%] max-[768px]:flex max-[768px]:justify-center">
-            <img
-              src={princImg}
-              alt="Principal"
-              className="w-[70em] h-[30rem] rounded-lg shadow-lg max-[768px]:w-[22rem] max-[768px]:h-[30rem] object-cover max-[1024px]:w-[44em] max-[1024px]:h-[22em]"
-            />
-          </div>
-          <div className="font-georgia flex flex-col justify-center max-[768px]:px-6 max-[768px]:gap-5 max-[768px]:pt-5">
-            <FaQuoteLeft className="text-customRed1 text-4xl max-[768px]:text-2xl max-[1024px]:text-3xl" />
-            <h1 className="md:py-10 italic text-5xl leading-[4rem] text-customGray max-[768px]:text-2xl max-[1024px]:text-3xl">
-              Everyday at the St Columbus School is like a blessing with the
-              active students and talented staff members around.
-            </h1>
-            <span className="text-2xl">
-              Niranjan Kumar Sandilya - Principal
-            </span>
-          </div>
-        </div>
-      </motion.div>
+      {/* Leadership Quotes Section (Manager, Chairman, Principal) */}
+      {leadersData.map((leader, index) => (
+        <LeaderQuoteCard
+          key={leader.id}
+          leader={leader}
+          delay={0.2 * (index + 1)}
+        />
+      ))}
 
       {/* Why Choose Us Section */}
       <motion.div
@@ -201,7 +241,7 @@ const AboutHero = () => {
             Meet Our Faculty
           </h2>
           <button
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-3 rounded-full shadow-lg"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-3 rounded-full shadow-lg z-10"
             onClick={() => handleScroll("left")}
           >
             <FaChevronLeft className="text-lg sm:text-xl text-gray-600" />
@@ -221,7 +261,7 @@ const AboutHero = () => {
             ))}
           </div>
           <button
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-3 rounded-full shadow-lg"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-3 rounded-full shadow-lg z-10"
             onClick={() => handleScroll("right")}
           >
             <FaChevronRight className="text-lg sm:text-xl text-gray-600" />
