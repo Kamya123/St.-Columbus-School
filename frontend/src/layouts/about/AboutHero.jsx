@@ -46,7 +46,7 @@ const leadersData = [
   },
   {
     id: "chairman",
-    name: "Udaykant Choudhury",
+    name: "Udaykant Choudhary",
     role: "Chairman",
     image: chairmanImg,
     quote:
