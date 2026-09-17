@@ -8,7 +8,7 @@ import Card from "../../components/Card";
 // Import separate images for each leader (Replace these paths with your actual image paths)
 import managerImg from "../../assets/images/principal.jpg"; // Replace/update as needed
 import chairmanImg from "../../assets/images/kk_manager.jpeg"; // Replace with chairman image path
-import principalImg from "../../assets/images/kk_principal.jpg"; // Replace with principal image path
+import principalImg from "../../assets/images/kk_principal.jpeg"; // Replace with principal image path
 
 const cardData = [
   {
